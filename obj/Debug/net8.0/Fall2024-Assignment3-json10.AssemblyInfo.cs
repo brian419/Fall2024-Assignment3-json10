@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fall2024-Assignment3-json10")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26eda04b4391cb22ad529133c1f9e3fed8b978da")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b79645dcdf6460a0be988c1104079ff86765e63")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fall2024-Assignment3-json10")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fall2024-Assignment3-json10")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

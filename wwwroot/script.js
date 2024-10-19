@@ -2,20 +2,21 @@ const moviesBtn = document.getElementById('movies-btn');
 const actorsBtn = document.getElementById('actors-btn');
 const homeSection = document.getElementById('home-section');
 const moviesSection = document.getElementById('movies-section');
-const reviewsSection = document.getElementById('reviews-section'); 
 const actorsSection = document.getElementById('actors-section');
+const reviewsSection = document.getElementById('reviews-section'); 
 const backToHomeMovies = document.getElementById('back-to-home-movies');
 const backToMovies = document.getElementById('back-to-movies'); 
 const backToHomeActors = document.getElementById('back-to-home-actors');
 const movieForm = document.getElementById('movie-form');
 const movieTable = document.querySelector('#movie-table tbody');
-const actorsList = document.getElementById('actors-list'); 
-const reviewsList = document.getElementById('reviews-list'); 
+const actorsList = document.getElementById('actors-list');
+const reviewsList = document.getElementById('reviews-list');
 
-let movies = JSON.parse(localStorage.getItem('movies')) || []; 
+
+let movies = JSON.parse(localStorage.getItem('movies')) || [];
 
 function renderMovies() {
-    movieTable.innerHTML = ''; 
+    movieTable.innerHTML = '';
 
     movies.forEach((movie, index) => {
         const row = document.createElement('tr');
@@ -46,13 +47,10 @@ movieForm.addEventListener('submit', function (e) {
         genre: document.getElementById('genre').value,
         year: document.getElementById('year').value,
         poster: document.getElementById('poster').value,
-        actors: document.getElementById('actors').value.split(",").map(actor => actor.trim()) 
+        actors: document.getElementById('actors').value.split(",").map(actor => actor.trim())
     };
 
-
     movies.push(newMovie);
-
-    console.log(newMovie.poster);
 
     localStorage.setItem('movies', JSON.stringify(movies));
 
@@ -69,7 +67,7 @@ function editMovie(index) {
     document.getElementById('genre').value = movie.genre;
     document.getElementById('year').value = movie.year;
     document.getElementById('poster').value = movie.poster;
-    document.getElementById('actors').value = movie.actors.join(", "); 
+    document.getElementById('actors').value = movie.actors.join(", ");
 
     movies.splice(index, 1);
 
@@ -89,6 +87,8 @@ function deleteMovie(index) {
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
+    const maxRetries = 3;  
+    const retryDelay = 2000; 
 
     const prompt = `Write ten detailed reviews for the movie titled '${movieTitle}'`;
 
@@ -106,27 +106,41 @@ async function callOpenAIForReviews(movieTitle) {
         max_tokens: 500
     };
 
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'api-key': apiKey
-            },
-            body: JSON.stringify(requestBody)
-        });
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'api-key': apiKey
+                },
+                body: JSON.stringify(requestBody)
+            });
 
-        const data = await response.json();
-        const reviewsText = data.choices[0].message.content;
+            if (response.status === 429) {
+                console.warn(`Rate limit exceeded, retrying in ${retryDelay / 1000} seconds... (Attempt ${attempt})`);
+                await new Promise(resolve => setTimeout(resolve, retryDelay));
+                continue; 
+            }
 
-        const reviewsArray = reviewsText.split("\n").filter(review => review.trim() !== '');
+            const data = await response.json();
+            if (!data.choices || data.choices.length === 0) {
+                throw new Error("No reviews returned by the API.");
+            }
 
-        return reviewsArray.slice(0, 10); 
-    } catch (error) {
-        console.error('Error calling OpenAI API:', error);
-        return [];
+            const reviewsText = data.choices[0].message.content;
+            const reviewsArray = reviewsText.split("\n").filter(review => review.trim() !== '');
+
+            return reviewsArray.slice(0, 10);  
+        } catch (error) {
+            console.error('Error calling OpenAI API:', error);
+            if (attempt === maxRetries) {
+                return [];  
+            }
+        }
     }
 }
+
 
 function analyzeSentiment(review) {
     const positiveWords = ["good", "great", "amazing", "fantastic", "wonderful"];
@@ -160,13 +174,9 @@ async function showReviews(index) {
 
     const reviews = await callOpenAIForReviews(movie.title);
 
-    let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4><ul style="list-style: none; padding: 0; text-align: center;">';
-    movie.actors.forEach(actor => {
-        actorsHTML += `<li style="display: inline-block; margin: 0 10px;">${actor}</li>`;
-    });
-    actorsHTML += "</ul>";
+    let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
+    actorsHTML += movie.actors.join(', '); 
     actorsList.innerHTML = actorsHTML;
-
 
 
     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
