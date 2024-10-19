@@ -1,49 +1,122 @@
-/* styles.css */
-
-body {
-    font-family: Arial, sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
-
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-}
-
-h1 {
-    margin: 0;
 }
 
 main {
-    padding: 20px;
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #45a049;
+    flex-grow: 1;
 }
 
 footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 10px;
-    position: fixed;
+    padding: 1rem;
     width: 100%;
-    bottom: 0;
+    position: relative;
+}
+
+footer p {
+    margin: 0;
+}
+
+
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+}
+
+h1 {
+    margin: 0;
+}
+
+#movies-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+#movie-form label, #movie-form input {
+    width: 100%;
+    text-align: left; 
+}
+
+table {
+    margin: 2rem auto;
+    border-collapse: collapse;
+    width: 80%; 
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+img {
+    width: 50px;
+    height: auto;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#movie-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto;
+}
+
+#movie-form label {
+    margin-bottom: 0.5rem;
+}
+
+
+#movie-form input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#actors-list {
+    text-align: center;
+}
+
+#reviews-list {
+    text-align: center;
 }
