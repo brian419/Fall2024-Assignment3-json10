@@ -4,8 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-Fall2024_Assignment3_json10-567ceb87-6e79-490e-9faa-91571f0a7f31</UserSecretsId>
     <RootNamespace>Fall2024_Assignment3_json10</RootNamespace>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="2.0.0" />

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uxV4N9SKxCNLqDldI6HxP7JH4RuECs64B95F6TVBqLQ=",
+  "Hash": "DMu/M3TDIw1lbO6SReduMVfFwuQq50/iuleZnLYTg8Q=",
   "Source": "Fall2024-Assignment3-json10",
   "BasePath": "_content/Fall2024-Assignment3-json10",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/index.html",
+      "SourceId": "Fall2024-Assignment3-json10",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
+      "BasePath": "_content/Fall2024-Assignment3-json10",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
     },
     {
       "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/js/site.js",
@@ -1193,6 +1212,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/script.js",
+      "SourceId": "Fall2024-Assignment3-json10",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
+      "BasePath": "_content/Fall2024-Assignment3-json10",
+      "RelativePath": "script.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/script.js"
+    },
+    {
+      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/styles.css",
+      "SourceId": "Fall2024-Assignment3-json10",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
+      "BasePath": "_content/Fall2024-Assignment3-json10",
+      "RelativePath": "styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/styles.css"
     }
   ]
 }

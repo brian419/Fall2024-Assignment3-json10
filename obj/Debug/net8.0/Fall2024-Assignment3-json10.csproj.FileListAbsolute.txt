@@ -28,3 +28,13 @@
 /Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/Fall2024-Assignment3-json10.pdb
 /Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/Fall2024-Assignment3-json10.genruntimeconfig.cache
 /Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/ref/Fall2024-Assignment3-json10.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/Azure.AI.OpenAI.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/Azure.Core.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/OpenAI.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/System.ClientModel.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/System.Memory.Data.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/bin/Debug/net8.0/VaderSharp2.dll
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/Fall2024-Assignment3-json10.csproj.AssemblyReference.cache
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/Fall2024-Assignment3-json10.sourcelink.json
+/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/obj/Debug/net8.0/Fall2024.2E476196.Up2Date

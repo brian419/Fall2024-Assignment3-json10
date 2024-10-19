@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
       "Id": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
@@ -243,6 +247,14 @@
     {
       "Id": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/lib/jquery/dist/jquery.min.map",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/script.js",
+      "PackagePath": "staticwebassets/script.js"
+    },
+    {
+      "Id": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/styles.css",
+      "PackagePath": "staticwebassets/styles.css"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Fall2024-Assignment3-json10.Microsoft.AspNetCore.StaticWebAssets.props",
