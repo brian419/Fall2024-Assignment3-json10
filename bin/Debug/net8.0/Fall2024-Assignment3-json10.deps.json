@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Fall2024-Assignment3-json10/1.0.0": {
+        "runtime": {
+          "Fall2024-Assignment3-json10.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Fall2024-Assignment3-json10/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
