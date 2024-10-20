@@ -34,7 +34,8 @@ h1 {
     margin: 0;
 }
 
-#movies-section {
+#movies-section,
+#actors-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,7 +44,9 @@ h1 {
 }
 
 #movie-form label,
-#movie-form input {
+#actor-form label,
+#movie-form input,
+#actor-form input {
     width: 100%;
     text-align: left;
 }
@@ -92,7 +95,8 @@ button:hover {
     background-color: #555;
 }
 
-#movie-form {
+#movie-form,
+#actor-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -101,21 +105,16 @@ button:hover {
     margin: 0 auto;
 }
 
-#movie-form label {
-    margin-bottom: 0.5rem;
+#actor-info img {
+    margin: 1rem;
+    border: 2px solid #ddd;
 }
 
-#movie-form input {
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+#actor-movies {
+    list-style-type: none;
+    padding: 0;
 }
 
-#actors-list {
-    text-align: center;
-}
-
-#reviews-list {
-    text-align: center;
+#actor-movies li {
+    margin: 5px 0;
 }
