@@ -4,7 +4,7 @@ const homeSection = document.getElementById('home-section');
 const moviesSection = document.getElementById('movies-section');
 const actorsSection = document.getElementById('actors-section');
 const reviewsSection = document.getElementById('reviews-section');
-const actorDetailsSection = document.getElementById('actor-details-section'); 
+const actorDetailsSection = document.getElementById('actor-details-section');
 const backToHomeMovies = document.getElementById('back-to-home-movies');
 const backToMovies = document.getElementById('back-to-movies');
 const backToHomeActors = document.getElementById('back-to-home-actors');
@@ -13,9 +13,9 @@ const movieForm = document.getElementById('movie-form');
 const movieTable = document.querySelector('#movie-table tbody');
 const actorsList = document.getElementById('actors-list');
 const reviewsList = document.getElementById('reviews-list');
-const sentimentTable = document.querySelector('#sentiment-table tbody'); 
-const actorMoviesList = document.getElementById('actor-movies'); 
-const overallSentimentSpan = document.getElementById('overall-sentiment'); 
+const sentimentTable = document.querySelector('#sentiment-table tbody');
+const actorMoviesList = document.getElementById('actor-movies');
+const overallSentimentSpan = document.getElementById('overall-sentiment');
 
 
 const actorForm = document.getElementById('actor-form');
@@ -36,9 +36,9 @@ function renderActors() {
             <td><a href="${actor.imdb}" target="_blank">IMDB</a></td>
             <td><img src="${actor.photo}" alt="${actor.name}" style="width:50px;"/></td>
             <td>
-                <button onclick="showActorDetails(${index})">Details</button>
                 <button onclick="editActor(${index})">Edit</button>
                 <button onclick="deleteActor(${index})">Delete</button>
+                <button onclick="showActorDetails(${index})">Details</button>
             </td>
         `;
         actorTable.appendChild(row);
@@ -162,11 +162,10 @@ function deleteActor(index) {
 async function callAIForTweets(actorName) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const maxRetries = 3;
-    const retryDelay = 2000;
-
-    const prompt = `Generate 20 short fictional tweets about the actor '${actorName}', ensuring each tweet is distinct.`;
-
+    const maxRetries = 10; 
+    const retryDelay = 5000; 
+    const targetTweetCount = 20;
+    const prompt = `Generate 20 short fictional tweets about the actor '${actorName}'.`;
 
     const requestBody = {
         messages: [
@@ -179,10 +178,12 @@ async function callAIForTweets(actorName) {
                 content: prompt
             }
         ],
-        max_tokens: 500
+        max_tokens: 500 
     };
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    let tweetsArray = [];
+
+    for (let attempt = 1; attempt <= maxRetries && tweetsArray.length < targetTweetCount; attempt++) {
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -205,25 +206,28 @@ async function callAIForTweets(actorName) {
             }
 
             const tweetsText = data.choices[0].message.content;
-            const tweetsArray = tweetsText.split("\n").filter(tweet => tweet.trim() !== '');
+            const newTweets = tweetsText.split("\n").filter(tweet => tweet.trim() !== '');
 
-            return tweetsArray.slice(0, 20);
+            tweetsArray = [...tweetsArray, ...newTweets].slice(0, targetTweetCount); // Cap the array to 20 tweets
+
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
             if (attempt === maxRetries) {
-                return [];
+                return tweetsArray; 
             }
         }
     }
+
+    return tweetsArray.slice(0, targetTweetCount);
 }
 
 
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const maxRetries = 3;
-    const retryDelay = 2000;
-
+    const maxRetries = 10; 
+    const retryDelay = 4000; 
+    const targetReviewCount = 10; 
     const prompt = `Write ten detailed reviews for the movie titled '${movieTitle}'`;
 
     const requestBody = {
@@ -237,10 +241,12 @@ async function callOpenAIForReviews(movieTitle) {
                 content: prompt
             }
         ],
-        max_tokens: 500
+        max_tokens: 500 
     };
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    let reviewsArray = [];
+
+    for (let attempt = 1; attempt <= maxRetries && reviewsArray.length < targetReviewCount; attempt++) {
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -252,7 +258,7 @@ async function callOpenAIForReviews(movieTitle) {
             });
 
             if (response.status === 429) {
-                console.warn(`Rate limit exceeded, retrying in ${retryDelay / 1000} seconds... (Attempt ${attempt})`);
+                console.warn(`Movie Review Rate limit exceeded, retrying in ${retryDelay / 1000} seconds... (Attempt ${attempt})`);
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
                 continue;
             }
@@ -263,16 +269,19 @@ async function callOpenAIForReviews(movieTitle) {
             }
 
             const reviewsText = data.choices[0].message.content;
-            const reviewsArray = reviewsText.split("\n").filter(review => review.trim() !== '');
+            const newReviews = reviewsText.split("\n").filter(review => review.trim() !== '');
 
-            return reviewsArray.slice(0, 10);
+            reviewsArray = [...reviewsArray, ...newReviews].slice(0, targetReviewCount); 
+
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
             if (attempt === maxRetries) {
-                return [];
+                return reviewsArray; 
             }
         }
     }
+
+    return reviewsArray.slice(0, targetReviewCount);
 }
 
 
@@ -301,7 +310,7 @@ function analyzeSentiment(tweet) {
 async function showReviews(index) {
     const movie = movies[index];
 
-    const reviews = await callOpenAIForReviews(movie.title) || []; 
+    const reviews = await callOpenAIForReviews(movie.title) || [];
 
     let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
     actorsHTML += movie.actors.join(', ');
@@ -355,9 +364,10 @@ async function showActorDetails(index) {
         actorMoviesList.innerHTML = moviesAndShows.map(item => `<li>${item}</li>`).join("");
     }
 
-    const tweets = await callAIForTweets(actor.name) || []; 
+    const tweets = await callAIForTweets(actor.name) || [];
 
-    sentimentTable.innerHTML = ''; 
+
+    sentimentTable.innerHTML = '';
 
     let totalSentimentScore = 0;
 
@@ -387,10 +397,14 @@ async function showActorDetails(index) {
     actorDetailsSection.style.display = 'block';
 }
 
+
 async function callAIForMoviesAndShows(actorName) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const prompt = `List all the movies and TV shows that the actor '${actorName}' has appeared in.`;
+    const maxRetries = 10;
+    const retryDelay = 4000;
+    const targetMoviesCount = 10;
+    const prompt = `List some of the movies and TV shows that the actor '${actorName}' has appeared in.`;
 
     const requestBody = {
         messages: [
@@ -400,28 +414,43 @@ async function callAIForMoviesAndShows(actorName) {
         max_tokens: 500
     };
 
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
-            body: JSON.stringify(requestBody)
-        });
+    let moviesAndShowsArray = [];
 
-        const data = await response.json();
+    for (let attempt = 1; attempt <= maxRetries && moviesAndShowsArray.length < targetMoviesCount; attempt++) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
+                body: JSON.stringify(requestBody)
+            });
 
-        if (data.choices && data.choices.length > 0) {
+            if (response.status === 429) {
+                console.warn(`Rate limit exceeded, retrying in ${retryDelay / 1000} seconds... (Attempt ${attempt})`);
+                await new Promise(resolve => setTimeout(resolve, retryDelay));
+                continue;
+            }
+
+            const data = await response.json();
+            if (!data.choices || data.choices.length === 0) {
+                throw new Error("No movies or shows returned by the API.");
+            }
+
             const moviesAndShowsText = data.choices[0].message.content;
-            const moviesAndShowsArray = moviesAndShowsText.split("\n").filter(item => item.trim() !== '');
+            const newMovies = moviesAndShowsText.split("\n").filter(item => item.trim() !== '');
 
-            return moviesAndShowsArray.slice(0, 10); 
-        } else {
-            return [];
+            moviesAndShowsArray = [...moviesAndShowsArray, ...newMovies].slice(0, targetMoviesCount); // Cap the array to 10 movies
+
+        } catch (error) {
+            console.error('Error calling OpenAI API:', error);
+            if (attempt === maxRetries) {
+                return moviesAndShowsArray; 
+            }
         }
-    } catch (error) {
-        console.error('Error calling OpenAI API:', error);
-        return [];
     }
+
+    return moviesAndShowsArray.slice(0, targetMoviesCount);
 }
+
 
 backToMovies.addEventListener('click', function () {
     reviewsSection.style.display = 'none';
@@ -452,3 +481,4 @@ backToHomeActors.addEventListener('click', function () {
     actorsSection.style.display = 'none';
     homeSection.style.display = 'block';
 });
+
