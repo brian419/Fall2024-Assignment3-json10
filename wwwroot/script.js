@@ -1,3 +1,5 @@
+
+// v2
 const moviesBtn = document.getElementById('movies-btn');
 const actorsBtn = document.getElementById('actors-btn');
 const homeSection = document.getElementById('home-section');
@@ -20,6 +22,9 @@ const overallSentimentSpan = document.getElementById('overall-sentiment');
 
 const actorForm = document.getElementById('actor-form');
 const actorTable = document.querySelector('#actor-table tbody');
+const linkForm = document.getElementById('link-form');
+const actorMovieTable = document.querySelector('#actor-movie-table tbody');
+
 
 let movies = JSON.parse(localStorage.getItem('movies')) || [];
 let actors = JSON.parse(localStorage.getItem('actors')) || [];
@@ -120,11 +125,11 @@ function editMovie(index) {
     document.getElementById('poster').value = movie.poster;
     document.getElementById('actors').value = movie.actors.join(", ");
 
-    movies.splice(index, 1);
+    // movies.splice(index, 1);
 
-    localStorage.setItem('movies', JSON.stringify(movies));
+    // localStorage.setItem('movies', JSON.stringify(movies));
 
-    renderMovies();
+    // renderMovies();
 }
 
 function editActor(index) {
@@ -162,8 +167,8 @@ function deleteActor(index) {
 async function callAIForTweets(actorName) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const maxRetries = 10; 
-    const retryDelay = 5000; 
+    const maxRetries = 10;
+    const retryDelay = 5000;
     const targetTweetCount = 20;
     const prompt = `Generate 20 short fictional tweets about the actor '${actorName}'.`;
 
@@ -178,7 +183,7 @@ async function callAIForTweets(actorName) {
                 content: prompt
             }
         ],
-        max_tokens: 500 
+        max_tokens: 500
     };
 
     let tweetsArray = [];
@@ -208,12 +213,12 @@ async function callAIForTweets(actorName) {
             const tweetsText = data.choices[0].message.content;
             const newTweets = tweetsText.split("\n").filter(tweet => tweet.trim() !== '');
 
-            tweetsArray = [...tweetsArray, ...newTweets].slice(0, targetTweetCount); // Cap the array to 20 tweets
+            tweetsArray = [...tweetsArray, ...newTweets].slice(0, targetTweetCount); 
 
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
             if (attempt === maxRetries) {
-                return tweetsArray; 
+                return tweetsArray;
             }
         }
     }
@@ -225,9 +230,9 @@ async function callAIForTweets(actorName) {
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const maxRetries = 10; 
-    const retryDelay = 4000; 
-    const targetReviewCount = 10; 
+    const maxRetries = 10;
+    const retryDelay = 4000;
+    const targetReviewCount = 10;
     const prompt = `Write ten detailed reviews for the movie titled '${movieTitle}'`;
 
     const requestBody = {
@@ -241,7 +246,7 @@ async function callOpenAIForReviews(movieTitle) {
                 content: prompt
             }
         ],
-        max_tokens: 500 
+        max_tokens: 500
     };
 
     let reviewsArray = [];
@@ -271,12 +276,12 @@ async function callOpenAIForReviews(movieTitle) {
             const reviewsText = data.choices[0].message.content;
             const newReviews = reviewsText.split("\n").filter(review => review.trim() !== '');
 
-            reviewsArray = [...reviewsArray, ...newReviews].slice(0, targetReviewCount); 
+            reviewsArray = [...reviewsArray, ...newReviews].slice(0, targetReviewCount);
 
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
             if (attempt === maxRetries) {
-                return reviewsArray; 
+                return reviewsArray;
             }
         }
     }
@@ -438,12 +443,12 @@ async function callAIForMoviesAndShows(actorName) {
             const moviesAndShowsText = data.choices[0].message.content;
             const newMovies = moviesAndShowsText.split("\n").filter(item => item.trim() !== '');
 
-            moviesAndShowsArray = [...moviesAndShowsArray, ...newMovies].slice(0, targetMoviesCount); // Cap the array to 10 movies
+            moviesAndShowsArray = [...moviesAndShowsArray, ...newMovies].slice(0, targetMoviesCount); 
 
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
             if (attempt === maxRetries) {
-                return moviesAndShowsArray; 
+                return moviesAndShowsArray;
             }
         }
     }
@@ -465,20 +470,104 @@ backToActors.addEventListener('click', function () {
 moviesBtn.addEventListener('click', function () {
     homeSection.style.display = 'none';
     moviesSection.style.display = 'block';
+    document.getElementById('link-actors-movies-btn').style.display = 'none'; 
 });
 
 actorsBtn.addEventListener('click', function () {
     homeSection.style.display = 'none';
     actorsSection.style.display = 'block';
+    document.getElementById('link-actors-movies-btn').style.display = 'none'; 
 });
 
 backToHomeMovies.addEventListener('click', function () {
     moviesSection.style.display = 'none';
     homeSection.style.display = 'block';
+    document.getElementById('link-actors-movies-btn').style.display = 'block'; 
 });
 
 backToHomeActors.addEventListener('click', function () {
     actorsSection.style.display = 'none';
     homeSection.style.display = 'block';
+    document.getElementById('link-actors-movies-btn').style.display = 'block'; 
 });
 
+let actorMovieLinks = JSON.parse(localStorage.getItem('actorMovieLinks')) || [];
+
+function renderMovieSelect() {
+    const movieSelect = document.getElementById('movie-select');
+    movieSelect.innerHTML = '';
+    movies.forEach((movie, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = movie.title;
+        movieSelect.appendChild(option);
+    });
+}
+
+function renderActorSelect() {
+    const actorSelect = document.getElementById('actor-select');
+    actorSelect.innerHTML = '';
+    actors.forEach((actor, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = actor.name;
+        actorSelect.appendChild(option);
+    });
+}
+
+function renderActorMovieLinks() {
+    actorMovieTable.innerHTML = '';
+
+    actorMovieLinks.forEach((link, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${movies[link.movieIndex].title}</td>
+            <td>${actors[link.actorIndex].name}</td>
+            <td>
+                <button onclick="deleteLink(${index})">Delete</button>
+            </td>
+        `;
+        actorMovieTable.appendChild(row);
+    });
+}
+
+linkForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const newLink = {
+        movieIndex: document.getElementById('movie-select').value,
+        actorIndex: document.getElementById('actor-select').value
+    };
+
+    actorMovieLinks.push(newLink);
+
+    localStorage.setItem('actorMovieLinks', JSON.stringify(actorMovieLinks));
+
+    renderActorMovieLinks();
+    linkForm.reset();
+});
+
+function deleteLink(index) {
+    actorMovieLinks.splice(index, 1);
+    localStorage.setItem('actorMovieLinks', JSON.stringify(actorMovieLinks));
+    renderActorMovieLinks();
+}
+
+
+
+const backToHomeLinks = document.getElementById('back-to-home-links');
+
+document.getElementById('link-actors-movies-btn').addEventListener('click', function () {
+    homeSection.style.display = 'none';
+    renderMovieSelect();
+    renderActorSelect();
+    renderActorMovieLinks();
+    document.getElementById('link-actors-movies-btn').style.display = 'none';
+    document.getElementById('actor-movie-link-section').style.display = 'block';
+});
+
+backToHomeLinks.addEventListener('click', function () {
+    document.getElementById('actor-movie-link-section').style.display = 'none';
+    homeSection.style.display = 'block';
+    document.getElementById('link-actors-movies-btn').style.display = 'block';
+});

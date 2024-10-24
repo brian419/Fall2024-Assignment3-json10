@@ -64,7 +64,6 @@
             <button id="back-to-home-actors">Back to Home</button>
         </section>
 
-        <!-- Added movies section -->
         <section id="movies-section" style="display:none;">
             <h2>Manage Movies</h2>
             <form id="movie-form">
@@ -138,6 +137,36 @@
 
             <button id="back-to-actors">Back to Actors</button>
         </section>
+        
+        <button id="link-actors-movies-btn">Link Actors to Movies</button>
+        <section id="actor-movie-link-section" style="display:none;">
+            <h2>Link Actors to Movies</h2>
+            <form id="link-form">
+                <label for="movie-select">Movie:</label>
+                <select id="movie-select" required></select><br><br>
+
+                <label for="actor-select">Actor:</label>
+                <select id="actor-select" required></select><br><br>
+
+                <button type="submit">Link Actor to Movie</button>
+            </form>
+
+            <h3>Actor-Movie Links</h3>
+            <table id="actor-movie-table">
+                <thead>
+                    <tr>
+                        <th>Movie</th>
+                        <th>Actor</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <button id="back-to-home-links">Back to Home</button>
+        </section>
+
+
 
     </main>
 

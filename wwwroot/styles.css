@@ -118,3 +118,10 @@ button:hover {
 #actor-movies li {
     margin: 5px 0;
 }
+
+
+#link-actors-movies-btn{
+    display: block; 
+    margin: 0 auto; 
+    text-align: center;
+}
