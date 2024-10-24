@@ -2,9 +2,18 @@ html,
 body {
     height: 100%;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #D6D5F1;
+}
+
+#text-color-1 {
+    -webkit-text-fill-color: #6C63A2;
+    margin-top: 80px;
+
 }
 
 main {
@@ -12,7 +21,7 @@ main {
 }
 
 footer {
-    background-color: #333;
+    background-color: #6C63FF;
     color: white;
     text-align: center;
     padding: 1rem;
@@ -25,7 +34,7 @@ footer p {
 }
 
 header {
-    background-color: #333;
+    background-color: #6C63FF;
     color: white;
     padding: 1rem;
 }
@@ -55,12 +64,14 @@ table {
     margin: 2rem auto;
     border-collapse: collapse;
     width: 80%;
+    margin-bottom: 20px;
+    background-color: white;
 }
 
 th,
 td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
 }
 
 th {
@@ -120,8 +131,24 @@ button:hover {
 }
 
 
-#link-actors-movies-btn{
-    display: block; 
-    margin: 0 auto; 
+#link-actors-movies-btn {
+    display: block;
+    margin: 0 auto;
     text-align: center;
 }
+
+
+#movies-btn,
+#actors-btn,
+#link-actors-movies-btn {
+    background-color: #727279;
+    margin-top: 30px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
