@@ -67,5 +67,19 @@ namespace FALL2024_Assignment3_json10.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        //reviews
+        public async Task<IActionResult> Reviews(string title)
+        {
+            var movie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == title);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(movie);
+        }
+
+
     }
 }

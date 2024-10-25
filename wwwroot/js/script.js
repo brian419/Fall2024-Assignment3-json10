@@ -1,3 +1,4 @@
+console.log("script.js loaded");
 
 // v2
 const moviesBtn = document.getElementById('movies-btn');
@@ -213,7 +214,7 @@ async function callAIForTweets(actorName) {
             const tweetsText = data.choices[0].message.content;
             const newTweets = tweetsText.split("\n").filter(tweet => tweet.trim() !== '');
 
-            tweetsArray = [...tweetsArray, ...newTweets].slice(0, targetTweetCount); 
+            tweetsArray = [...tweetsArray, ...newTweets].slice(0, targetTweetCount);
 
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
@@ -230,10 +231,10 @@ async function callAIForTweets(actorName) {
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
-    const maxRetries = 10;
+    const maxRetries = 20;
     const retryDelay = 4000;
     const targetReviewCount = 10;
-    const prompt = `Write ten detailed reviews for the movie titled '${movieTitle}'`;
+    const prompt = `Write ten detailed reviews for the movie with '${movieTitle}'.`;
 
     const requestBody = {
         messages: [
@@ -286,6 +287,9 @@ async function callOpenAIForReviews(movieTitle) {
         }
     }
 
+    // when calling a request, console log the response to see if it's working
+    console.log(reviewsArray);
+
     return reviewsArray.slice(0, targetReviewCount);
 }
 
@@ -312,41 +316,129 @@ function analyzeSentiment(tweet) {
     return sentimentScore > 0 ? "Positive" : sentimentScore < 0 ? "Negative" : "Neutral";
 }
 
-async function showReviews(index) {
-    const movie = movies[index];
+// async function showReviews(index) {
+//     const movie = movies[index];
+
+//     const reviews = await callOpenAIForReviews(movie.title) || [];
+
+//     let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
+//     actorsHTML += movie.actors.join(', ');
+//     actorsList.innerHTML = actorsHTML;
+
+
+//     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
+
+//     let totalSentimentScore = 0;
+
+//     reviews.forEach(review => {
+//         const sentiment = analyzeSentiment(review);
+//         reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
+
+//         if (sentiment === "Positive") {
+//             totalSentimentScore += 1;
+//         } else if (sentiment === "Negative") {
+//             totalSentimentScore -= 1;
+//         }
+//     });
+
+//     let overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
+//         totalSentimentScore < 0 ? "Overall Sentiment: Negative" :
+//             "Overall Sentiment: Neutral";
+
+//     reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
+//     reviewsList.innerHTML = reviewsHTML;
+
+//     moviesSection.style.display = 'none';
+//     reviewsSection.style.display = 'block';
+// }
+
+
+// async function showReviews(movieTitle) {
+//     const movie = movies.find(m => m.title === movieTitle);
+
+
+//     if (!movie) {
+//         console.error(`Movie with title "${movieTitle}" not found.`);
+//         return;
+//     }
+
+//     const reviews = await callOpenAIForReviews(movie.title) || [];
+
+//     let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
+//     actorsHTML += movie.actors.join(', ');
+//     actorsList.innerHTML = actorsHTML;
+
+//     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
+
+//     let totalSentimentScore = 0;
+
+//     reviews.forEach(review => {
+//         const sentiment = analyzeSentiment(review);
+//         reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
+
+//         if (sentiment === "Positive") {
+//             totalSentimentScore += 1;
+//         } else if (sentiment === "Negative") {
+//             totalSentimentScore -= 1;
+//         }
+//     });
+
+//     let overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
+//         totalSentimentScore < 0 ? "Overall Sentiment: Negative" :
+//             "Overall Sentiment: Neutral";
+
+//     reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
+//     reviewsList.innerHTML = reviewsHTML;
+
+//     moviesSection.style.display = 'none';
+//     reviewsSection.style.display = 'block';
+// }
+
+async function showReviews(movieTitle) {
+    const movie = movies.find(m => m.title === movieTitle);
+
+    if (!movie) {
+        console.error(`Movie with title "${movieTitle}" not found.`);
+        return;
+    } else {
+        console.log(movie);
+    }
 
     const reviews = await callOpenAIForReviews(movie.title) || [];
 
-    let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
-    actorsHTML += movie.actors.join(', ');
-    actorsList.innerHTML = actorsHTML;
+
+    const reviewsList = document.getElementById("reviews-list");
+
+    if (!reviewsList) {
+        console.error("missing.");
+        return;
+    }
 
 
     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
-
     let totalSentimentScore = 0;
 
     reviews.forEach(review => {
         const sentiment = analyzeSentiment(review);
         reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
-
-        if (sentiment === "Positive") {
-            totalSentimentScore += 1;
-        } else if (sentiment === "Negative") {
-            totalSentimentScore -= 1;
-        }
+        totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
     });
 
-    let overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
-        totalSentimentScore < 0 ? "Overall Sentiment: Negative" :
-            "Overall Sentiment: Neutral";
-
+    const overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
+        totalSentimentScore < 0 ? "Overall Sentiment: Negative" : "Overall Sentiment: Neutral";
     reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
-    reviewsList.innerHTML = reviewsHTML;
 
+    reviewsList.innerHTML = reviewsHTML;
     moviesSection.style.display = 'none';
     reviewsSection.style.display = 'block';
 }
+
+function backToMoviesFunc() {
+    reviewsSection.style.display = 'none';
+    moviesSection.style.display = 'block';
+}
+
+
 
 
 async function showActorDetails(index) {
@@ -443,7 +535,7 @@ async function callAIForMoviesAndShows(actorName) {
             const moviesAndShowsText = data.choices[0].message.content;
             const newMovies = moviesAndShowsText.split("\n").filter(item => item.trim() !== '');
 
-            moviesAndShowsArray = [...moviesAndShowsArray, ...newMovies].slice(0, targetMoviesCount); 
+            moviesAndShowsArray = [...moviesAndShowsArray, ...newMovies].slice(0, targetMoviesCount);
 
         } catch (error) {
             console.error('Error calling OpenAI API:', error);
@@ -460,7 +552,11 @@ async function callAIForMoviesAndShows(actorName) {
 backToMovies.addEventListener('click', function () {
     reviewsSection.style.display = 'none';
     moviesSection.style.display = 'block';
+    document.getElementById('reviews-section').style.display = 'none'; // recently added, don't forget
+    document.getElementById('movies-section').style.display = 'block';
 });
+
+
 
 backToActors.addEventListener('click', function () {
     actorDetailsSection.style.display = 'none';
@@ -470,25 +566,25 @@ backToActors.addEventListener('click', function () {
 moviesBtn.addEventListener('click', function () {
     homeSection.style.display = 'none';
     moviesSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'none'; 
+    document.getElementById('link-actors-movies-btn').style.display = 'none';
 });
 
 actorsBtn.addEventListener('click', function () {
     homeSection.style.display = 'none';
     actorsSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'none'; 
+    document.getElementById('link-actors-movies-btn').style.display = 'none';
 });
 
 backToHomeMovies.addEventListener('click', function () {
     moviesSection.style.display = 'none';
     homeSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'block'; 
+    document.getElementById('link-actors-movies-btn').style.display = 'block';
 });
 
 backToHomeActors.addEventListener('click', function () {
     actorsSection.style.display = 'none';
     homeSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'block'; 
+    document.getElementById('link-actors-movies-btn').style.display = 'block';
 });
 
 let actorMovieLinks = JSON.parse(localStorage.getItem('actorMovieLinks')) || [];

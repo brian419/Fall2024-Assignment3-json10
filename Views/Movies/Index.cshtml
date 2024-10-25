@@ -1,4 +1,4 @@
-@model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
+@* @model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
 
 @{
     Layout = "_Layout";
@@ -96,6 +96,68 @@
         }
     </script>
 
+</body>
+
+</html> *@
+
+
+
+@model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+    <script src="~/js/script.js"></script>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <section id="movies-section">
+        <h2>Movies</h2>
+        <table id="movies-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Year</th>
+                    <th>IMDB</th>
+                    <th>Poster</th>
+                    <th>Actions</th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var movie in Model)
+                {
+                    <tr>
+                        <td>@movie.Title</td>
+                        <td>@movie.Genre</td>
+                        <td>@movie.Year</td>
+                        <td><a href="@movie.IMDBLink" target="_blank">Link</a></td>
+                        <td><img src="@movie.Poster" alt="@movie.Title" /></td>
+                        <td>
+                            <form asp-action="DeleteConfirmed" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@movie.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <button type="button" onclick="showReviews('@movie.Title')">Reviews</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button onclick="window.location.href = '@Url.Action("Create")';">Add Movie</button>
+        <button onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
+    </section>
+
+    <section id="reviews-section">
+        <ul id="reviews-list"></ul>
+        <table id="sentiment-table">
+        </table>
+        <p id="overall-sentiment"></p>
+        <button style="display: none" onclick="backToMoviesFunc()">Back to Movies</button>
+    </section>
 </body>
 
 </html>
