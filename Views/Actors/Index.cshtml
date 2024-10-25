@@ -22,7 +22,7 @@
                     <th>Age</th>
                     <th>IMDB</th>
                     <th>Photo</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +35,8 @@
                         <td><a href="@actor.IMDBLink" target="_blank">Link</a></td>
                         <td><img src="@actor.Photo" alt="@actor.Name" /></td>
                         <td>
+                            <button type="button" onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
+
                             <button onclick="openDeleteModal(@actor.Id)" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
