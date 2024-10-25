@@ -139,6 +139,33 @@ namespace FALL2024_Assignment3_json10.Controllers
             }
             return View(actor);
         }
+
+        public async Task<IActionResult> LinkActorsMovies()
+        {
+            ViewBag.Actors = await _context.Actors.ToListAsync();
+            ViewBag.Movies = await _context.Movies.ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LinkActorsToMovies(int actorId, int movieId)
+        {
+            var actor = await _context.Actors.FindAsync(actorId);
+            var movie = await _context.Movies.FindAsync(movieId);
+
+            if (actor == null || movie == null)
+            {
+                return NotFound();
+            }
+
+            actor.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }
 
