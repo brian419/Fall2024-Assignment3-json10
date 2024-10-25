@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+
+<body>
+    <h1 id="text-color-1">Welcome to AIMDB</h1>
+    <p>This site allows you to manage actors and movies!</p>
+
+    <nav>
+        <button onclick="window.location.href = '@Url.Action("Index", "Actors")';">Actors</button>
+        <button onclick="window.location.href = '@Url.Action("Index", "Movies")';">Movies</button>
+        <button onclick="window.location.href = '@Url.Action("LinkActorsMovies", "Actors")';">Link Actors to
+            Movies</button>
+    </nav>
+</body>
+
+</html>

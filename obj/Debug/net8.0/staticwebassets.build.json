@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "DMu/M3TDIw1lbO6SReduMVfFwuQq50/iuleZnLYTg8Q=",
+  "Hash": "PQVhpVpVe0pM/5Zkzh3B998AOfCzf6cqCt23YpANzik=",
   "Source": "Fall2024-Assignment3-json10",
   "BasePath": "_content/Fall2024-Assignment3-json10",
   "Mode": "Default",
@@ -74,6 +74,25 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
+      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/css/styles.css",
+      "SourceId": "Fall2024-Assignment3-json10",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
+      "BasePath": "_content/Fall2024-Assignment3-json10",
+      "RelativePath": "css/styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/styles.css"
+    },
+    {
       "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/favicon.ico",
       "SourceId": "Fall2024-Assignment3-json10",
       "SourceType": "Discovered",
@@ -93,12 +112,12 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/index.html",
+      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/js/script.js",
       "SourceId": "Fall2024-Assignment3-json10",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
       "BasePath": "_content/Fall2024-Assignment3-json10",
-      "RelativePath": "index.html",
+      "RelativePath": "js/script.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -109,7 +128,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/index.html"
+      "OriginalItemSpec": "wwwroot/js/script.js"
     },
     {
       "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/js/site.js",
@@ -1212,44 +1231,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
-    },
-    {
-      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/script.js",
-      "SourceId": "Fall2024-Assignment3-json10",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
-      "BasePath": "_content/Fall2024-Assignment3-json10",
-      "RelativePath": "script.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/script.js"
-    },
-    {
-      "Identity": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/styles.css",
-      "SourceId": "Fall2024-Assignment3-json10",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/wwwroot/",
-      "BasePath": "_content/Fall2024-Assignment3-json10",
-      "RelativePath": "styles.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/styles.css"
     }
   ]
 }

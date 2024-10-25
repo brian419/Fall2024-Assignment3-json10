@@ -1,0 +1,33 @@
+@model (IEnumerable<Fall2024_Assignment3_json10.Models.Actor>, IEnumerable<Fall2024_Assignment3_json10.Models.Movie>)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Link Actors to Movies</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <h2>Link Actors to Movies</h2>
+    
+    <form action="/Actors/LinkActorsMovies" method="post">
+        <label for="actor">Choose an Actor:</label>
+        <select id="actor" name="actorId">
+            @foreach (var actor in Model.Item1)
+            {
+                <option value="@actor.Id">@actor.Name</option>
+            }
+        </select>
+
+        <label for="movie">Choose a Movie:</label>
+        <select id="movie" name="movieId">
+            @foreach (var movie in Model.Item2)
+            {
+                <option value="@movie.Id">@movie.Title</option>
+            }
+        </select>
+
+        <button type="submit">Link Actor to Movie</button>
+    </form>
+</body>
+</html>
