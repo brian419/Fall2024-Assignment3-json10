@@ -116,22 +116,79 @@ actorForm.addEventListener('submit', function (e) {
     actorForm.reset();
 });
 
-function editMovie(index) {
-    const movie = movies[index];
 
+function editMovie(movieTitle) {
+    const movie = movies.find(m => m.title === movieTitle);
+    if (!movie) {
+        console.error(`Movie with title "${movieTitle}" not found.`);
+        return;
+    }
+    document.getElementById('movieId').value = movie.id;
     document.getElementById('title').value = movie.title;
-    document.getElementById('imdb').value = movie.imdb;
-    document.getElementById('genre').value = movie.genre;
-    document.getElementById('year').value = movie.year;
-    document.getElementById('poster').value = movie.poster;
-    document.getElementById('actors').value = movie.actors.join(", ");
-
-    // movies.splice(index, 1);
-
-    // localStorage.setItem('movies', JSON.stringify(movies));
-
-    // renderMovies();
+    document.getElementById('imdb').value = movie.imdb || '';
+    document.getElementById('genre').value = movie.genre || '';
+    document.getElementById('year').value = movie.year || '';
+    document.getElementById('poster').value = movie.poster || '';
+    document.getElementById('editMovieModal').style.display = 'block';
 }
+
+function closeEditMovieModal() {
+    document.getElementById('editMovieModal').style.display = 'none';
+}
+
+
+async function deleteMovie(id) {
+    const csrfToken = document.querySelector('#csrf-form input[name="__RequestVerificationToken"]').value;
+
+    if (!csrfToken) {
+        console.error("CSRF token not found.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`/Movies/DeleteConfirmed?id=${id}`, {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            }
+        });
+
+        if (response.ok) {
+            console.log("Movie deleted successfully.");
+            location.reload(); 
+        } else {
+            console.error("Failed to delete movie.");
+        }
+    } catch (error) {
+        console.error("Error deleting movie:", error);
+    }
+}
+
+
+function renderMovies() {
+    const movieTable = document.getElementById('movies-table').querySelector('tbody');
+    movieTable.innerHTML = ''; 
+    movies.forEach((movie, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${movie.title}</td>
+            <td>${movie.genre}</td>
+            <td>${movie.year}</td>
+            <td><a href="${movie.imdb}" target="_blank">Link</a></td>
+            <td><img src="${movie.poster}" alt="${movie.title}" style="width:50px;"/></td>
+            <td>
+                <button onclick="editMovie(${index})">Edit</button>
+                <button onclick="deleteMovie(${index})">Delete</button>
+                <button onclick="showReviews('${movie.title}')">Reviews</button>
+            </td>
+        `;
+        movieTable.appendChild(row);
+    });
+}
+
+renderMovies();
+
 
 function editActor(index) {
     const actor = actors[index];
@@ -149,13 +206,6 @@ function editActor(index) {
     renderActors();
 }
 
-function deleteMovie(index) {
-    movies.splice(index, 1);
-
-    localStorage.setItem('movies', JSON.stringify(movies));
-
-    renderMovies();
-}
 
 function deleteActor(index) {
     actors.splice(index, 1);
@@ -287,7 +337,6 @@ async function callOpenAIForReviews(movieTitle) {
         }
     }
 
-    // when calling a request, console log the response to see if it's working
     console.log(reviewsArray);
 
     return reviewsArray.slice(0, targetReviewCount);
@@ -316,129 +365,55 @@ function analyzeSentiment(tweet) {
     return sentimentScore > 0 ? "Positive" : sentimentScore < 0 ? "Negative" : "Neutral";
 }
 
-// async function showReviews(index) {
-//     const movie = movies[index];
-
-//     const reviews = await callOpenAIForReviews(movie.title) || [];
-
-//     let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
-//     actorsHTML += movie.actors.join(', ');
-//     actorsList.innerHTML = actorsHTML;
-
-
-//     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
-
-//     let totalSentimentScore = 0;
-
-//     reviews.forEach(review => {
-//         const sentiment = analyzeSentiment(review);
-//         reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
-
-//         if (sentiment === "Positive") {
-//             totalSentimentScore += 1;
-//         } else if (sentiment === "Negative") {
-//             totalSentimentScore -= 1;
-//         }
-//     });
-
-//     let overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
-//         totalSentimentScore < 0 ? "Overall Sentiment: Negative" :
-//             "Overall Sentiment: Neutral";
-
-//     reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
-//     reviewsList.innerHTML = reviewsHTML;
-
-//     moviesSection.style.display = 'none';
-//     reviewsSection.style.display = 'block';
-// }
-
-
-// async function showReviews(movieTitle) {
-//     const movie = movies.find(m => m.title === movieTitle);
-
-
-//     if (!movie) {
-//         console.error(`Movie with title "${movieTitle}" not found.`);
-//         return;
-//     }
-
-//     const reviews = await callOpenAIForReviews(movie.title) || [];
-
-//     let actorsHTML = '<h4 style="text-align: center;">Actors in this movie:</h4>';
-//     actorsHTML += movie.actors.join(', ');
-//     actorsList.innerHTML = actorsHTML;
-
-//     let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
-
-//     let totalSentimentScore = 0;
-
-//     reviews.forEach(review => {
-//         const sentiment = analyzeSentiment(review);
-//         reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
-
-//         if (sentiment === "Positive") {
-//             totalSentimentScore += 1;
-//         } else if (sentiment === "Negative") {
-//             totalSentimentScore -= 1;
-//         }
-//     });
-
-//     let overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
-//         totalSentimentScore < 0 ? "Overall Sentiment: Negative" :
-//             "Overall Sentiment: Neutral";
-
-//     reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
-//     reviewsList.innerHTML = reviewsHTML;
-
-//     moviesSection.style.display = 'none';
-//     reviewsSection.style.display = 'block';
-// }
 
 async function showReviews(movieTitle) {
-    const movie = movies.find(m => m.title === movieTitle);
-
-    if (!movie) {
-        console.error(`Movie with title "${movieTitle}" not found.`);
-        return;
-    } else {
-        console.log(movie);
-    }
-
-    const reviews = await callOpenAIForReviews(movie.title) || [];
-
-
+    const reviewsSection = document.getElementById("reviews-section");
     const reviewsList = document.getElementById("reviews-list");
 
-    if (!reviewsList) {
-        console.error("missing.");
+    if (!reviewsSection || !reviewsList) {
+        console.error("reviews-section or reviews-list is missing.");
         return;
     }
 
+    try {
+        const response = await fetch(`/Movies/Reviews?title=${encodeURIComponent(movieTitle)}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
 
-    let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
-    let totalSentimentScore = 0;
+        if (!response.ok) {
+            throw new Error(`Movie with title "${movieTitle}" not found on the server.`);
+        }
 
-    reviews.forEach(review => {
-        const sentiment = analyzeSentiment(review);
-        reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
-        totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
-    });
+        const movie = await response.json();  
 
-    const overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
-        totalSentimentScore < 0 ? "Overall Sentiment: Negative" : "Overall Sentiment: Neutral";
-    reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
+        const reviews = await callOpenAIForReviews(movie.title) || [];
+        let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
+        let totalSentimentScore = 0;
 
-    reviewsList.innerHTML = reviewsHTML;
-    moviesSection.style.display = 'none';
-    reviewsSection.style.display = 'block';
+        reviews.forEach(review => {
+            const sentiment = analyzeSentiment(review);
+            reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
+            totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
+        });
+
+        const overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
+            totalSentimentScore < 0 ? "Overall Sentiment: Negative" : "Overall Sentiment: Neutral";
+        reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
+
+        reviewsList.innerHTML = reviewsHTML;
+        document.getElementById("movies-section").style.display = 'none';
+        reviewsSection.style.display = 'block';
+
+    } catch (error) {
+        console.error(error.message);
+    }
 }
+
 
 function backToMoviesFunc() {
-    reviewsSection.style.display = 'none';
-    moviesSection.style.display = 'block';
+    document.getElementById("reviews-section").style.display = 'none';
+    document.getElementById("movies-section").style.display = 'block';
 }
-
-
 
 
 async function showActorDetails(index) {
@@ -552,7 +527,7 @@ async function callAIForMoviesAndShows(actorName) {
 backToMovies.addEventListener('click', function () {
     reviewsSection.style.display = 'none';
     moviesSection.style.display = 'block';
-    document.getElementById('reviews-section').style.display = 'none'; // recently added, don't forget
+    document.getElementById('reviews-section').style.display = 'none'; 
     document.getElementById('movies-section').style.display = 'block';
 });
 

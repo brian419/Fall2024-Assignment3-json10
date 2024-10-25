@@ -42,6 +42,7 @@ namespace FALL2024_Assignment3_json10.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Movies/DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Console.WriteLine($"DeleteConfirmed action hit for movie with ID: {id}");
@@ -69,10 +70,28 @@ namespace FALL2024_Assignment3_json10.Controllers
         }
 
 
-        //reviews
         public async Task<IActionResult> Reviews(string title)
         {
+            Console.WriteLine("Reached the Reviews action");  
+
             var movie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == title);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(movie);
+            }
+
+            return View(movie);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -80,6 +99,30 @@ namespace FALL2024_Assignment3_json10.Controllers
             return View(movie);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Movie movie)
+        {
+            if (id != movie.Id)
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(movie);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            return View(movie);
+        }
 
     }
 }
