@@ -57,6 +57,10 @@
               "target": "Package",
               "version": "[8.0.10, )"
             },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            },
             "VaderSharp2": {
               "target": "Package",
               "version": "[3.3.2.1, )"

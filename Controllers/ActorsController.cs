@@ -129,7 +129,16 @@ namespace FALL2024_Assignment3_json10.Controllers
             return View(actor);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+            if (actor == null)
+            {
+                return NotFound();
+            }
+            return View(actor);
+        }
     }
-
-
 }
+

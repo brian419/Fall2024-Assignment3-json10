@@ -36,8 +36,8 @@
                         <td><img src="@actor.Photo" alt="@actor.Name" /></td>
                         <td>
                             <button type="button" onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
-
                             <button onclick="openDeleteModal(@actor.Id)" class="btn btn-danger">Delete</button>
+                            <button type="button" onclick="location.href='@Url.Action("Details", "Actors", new { id = actor.Id })'">Details</button>
                         </td>
                     </tr>
                 }
@@ -49,6 +49,25 @@
         <button onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
 
     </section>
+
+    <section id="actor-details-section" style="display:none;">
+        <div id="actor-info"></div>
+        <h4>Movies and TV Shows</h4>
+        <ul id="actor-movies"></ul>
+        <h4>AI-Generated Tweets</h4>
+        <table id="sentiment-table">
+            <thead>
+                <tr>
+                    <th>Tweet</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p>Overall Sentiment: <span id="overall-sentiment"></span></p>
+        <button onclick="backToActors()">Back to Actors</button>
+    </section>
+
 
 
     <div id="deleteModal" class="modal">

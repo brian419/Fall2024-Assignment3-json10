@@ -416,58 +416,52 @@ function backToMoviesFunc() {
 }
 
 
-async function showActorDetails(index) {
-    const actor = actors[index];
-
-    const actorInfoHTML = `
-        <h3>${actor.name}</h3>
-        <p><strong>Gender:</strong> ${actor.gender}</p>
-        <p><strong>Age:</strong> ${actor.age}</p>
-        <p><strong>IMDB:</strong> <a href="${actor.imdb}" target="_blank">Link</a></p>
-        <img src="${actor.photo}" alt="${actor.name}" style="width:100px;"/>
-    `;
-    document.getElementById('actor-info').innerHTML = actorInfoHTML;
-
-    let moviesAndShows = await callAIForMoviesAndShows(actor.name);
-
-    if (moviesAndShows.length === 0) {
-        actorMoviesList.innerHTML = `<li>Cannot find any Movies or TV shows ${actor.name} has played in.</li>`;
-    } else {
-        actorMoviesList.innerHTML = moviesAndShows.map(item => `<li>${item}</li>`).join("");
-    }
-
-    const tweets = await callAIForTweets(actor.name) || [];
-
-
-    sentimentTable.innerHTML = '';
-
-    let totalSentimentScore = 0;
-
-    if (tweets.length > 0) {
-        tweets.forEach(tweet => {
-            const sentiment = analyzeSentiment(tweet);
-            const row = `<tr><td>${tweet}</td><td>${sentiment}</td></tr>`;
-            sentimentTable.innerHTML += row;
-
-            if (sentiment === "Positive") {
-                totalSentimentScore += 1;
-            }
-            else if (sentiment === "Negative") {
-                totalSentimentScore -= 1;
-            }
+async function showActorDetails(actorId) {
+    try {
+        const response = await fetch(`/Actors/Details?id=${actorId}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         });
 
-        const overallSentiment = totalSentimentScore > 0 ? "Positive" : totalSentimentScore < 0 ? "Negative" : "Neutral";
-        overallSentimentSpan.textContent = overallSentiment;
-    } else {
-        sentimentTable.innerHTML = "<tr><td colspan='2'>No tweets available.</td></tr>";
-        overallSentimentSpan.textContent = "Neutral";
-    }
+        if (!response.ok) {
+            throw new Error(`Actor with ID "${actorId}" not found on the server.`);
+        }
 
-    homeSection.style.display = 'none';
-    actorsSection.style.display = 'none';
-    actorDetailsSection.style.display = 'block';
+        const actor = await response.json();  
+
+        const actorInfoHTML = `
+            <h3>${actor.name}</h3>
+            <p><strong>Gender:</strong> ${actor.gender}</p>
+            <p><strong>Age:</strong> ${actor.age}</p>
+            <p><strong>IMDB:</strong> <a href="${actor.imdb}" target="_blank">Link</a></p>
+            <img src="${actor.photo}" alt="${actor.name}" style="width:100px;"/>
+        `;
+        document.getElementById('actor-info').innerHTML = actorInfoHTML;
+
+        const moviesAndShows = await callAIForMoviesAndShows(actor.name);
+        actorMoviesList.innerHTML = moviesAndShows.length
+            ? moviesAndShows.map(item => `<li>${item}</li>`).join("")
+            : `<li>No movies or TV shows found for ${actor.name}.</li>`;
+
+        const tweets = await callAIForTweets(actor.name);
+        sentimentTable.innerHTML = '';
+        let totalSentimentScore = 0;
+
+        tweets.forEach(tweet => {
+            const sentiment = analyzeSentiment(tweet);
+            sentimentTable.innerHTML += `<tr><td>${tweet}</td><td>${sentiment}</td></tr>`;
+            totalSentimentScore += sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0;
+        });
+
+        overallSentimentSpan.textContent = totalSentimentScore > 0 ? "Positive" : totalSentimentScore < 0 ? "Negative" : "Neutral";
+
+        actorsSection.style.display = 'none';
+        actorDetailsSection.style.display = 'block';
+    } catch (error) {
+        console.error(error.message);
+    }
 }
+
+
 
 
 async function callAIForMoviesAndShows(actorName) {
