@@ -4,38 +4,40 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Link Actors to Movies</title>
+    <title>Movies</title>
     <link rel="stylesheet" href="~/css/styles.css" />
 </head>
-
 <body>
-    <h2>Link Actors to Movies</h2>
+    <h2>Movies</h2>
+    <section id="movies-section">
+        @foreach (var movie in ViewBag.Movies)
+        {
+            <div class="movie-card">
+                <img src="@movie.Poster" alt="@movie.Title" />
+                <h3>@movie.Title</h3>
+                <p><strong>Year:</strong> @movie.Year</p>
+                <p><strong>Genre:</strong> @movie.Genre</p>
+                <button onclick="location.href='@Url.Action("MovieDetails", "Movies", new { id = movie.Id })'">View Details</button>
+            </div>
+        }
+    </section>
 
-    <form id="linkForm" method="post" asp-action="LinkActorsToMovies">
-        <div>
-            <label for="actorId">Select Actor:</label>
-            <select id="actorId" name="actorId">
-                @foreach (var actor in ViewBag.Actors)
-                {
-                    <option value="@actor.Id">@actor.Name</option>
-                }
-            </select>
-        </div>
-
-        <div>
-            <label for="movieId">Select Movie:</label>
-            <select id="movieId" name="movieId">
-                @foreach (var movie in ViewBag.Movies)
-                {
-                    <option value="@movie.Id">@movie.Title</option>
-                }
-            </select>
-        </div>
-
-        <button type="submit">Link Actor to Movie</button>
-    </form>
+    <style>
+        .movie-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+            width: 200px;
+            display: inline-block;
+        }
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
 </body>
-
 </html>

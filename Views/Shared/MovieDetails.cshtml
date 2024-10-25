@@ -1,0 +1,74 @@
+@* v3 *@
+
+
+@model Fall2024_Assignment3_json10.Models.Movie
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@Model.Title - Details</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <h2>@Model.Title</h2>
+    <section class="movie-card">
+        <img src="@Model.Poster" alt="@Model.Title" />
+        <h3>@Model.Title</h3>
+        <p><strong>Year:</strong> @Model.Year</p>
+        <p><strong>Genre:</strong> @Model.Genre</p>
+        <h4>Actors in this Movie</h4>
+        <ul>
+            @foreach (var actor in Model.Actors)
+            {
+                <li>
+                    <a href="@Url.Action("Details", "Actors", new { id = actor.Id })">@actor.Name</a>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <section>
+        <h3>Add Actors to Movie</h3>
+        <form method="post" asp-action="AddActorsToMovie" asp-controller="Movies">
+            <input type="hidden" name="movieId" value="@Model.Id" />
+            <div>
+                <label for="actorIds">Select Actors:</label>
+                <select id="actorIds" name="actorIds" multiple>
+                    @foreach (var actor in ViewBag.AllActors)
+                    {
+                        <option value="@actor.Id">@actor.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit">Save Actors</button>
+        </form>
+    </section>
+
+    <button onclick="window.history.back()">Back to Movies</button>
+
+    <style>
+        .movie-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+            width: 300px;
+            display: inline-block;
+        }
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        select[multiple] {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</body>
+</html>

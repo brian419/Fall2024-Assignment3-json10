@@ -2,6 +2,9 @@ using FALL2024_Assignment3_json10;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Fall2024_Assignment3_json10.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FALL2024_Assignment3_json10.Controllers
@@ -69,10 +72,9 @@ namespace FALL2024_Assignment3_json10.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         public async Task<IActionResult> Reviews(string title)
         {
-            Console.WriteLine("Reached the Reviews action");  
+            Console.WriteLine("Reached the Reviews action");
 
             var movie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == title);
             if (movie == null)
@@ -124,5 +126,54 @@ namespace FALL2024_Assignment3_json10.Controllers
             return View(movie);
         }
 
+        public async Task<IActionResult> MovieDetails(int id)
+        {
+            try
+            {
+                var movie = await _context.Movies
+                    .Include(m => m.Actors) 
+                    .FirstOrDefaultAsync(m => m.Id == id);
+
+                if (movie == null)
+                {
+                    Console.WriteLine($"Movie with ID {id} not found.");
+                    return NotFound();
+                }
+
+                ViewBag.AllActors = await _context.Actors.ToListAsync();
+                return View(movie);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading movie details: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddActorsToMovie(int movieId, List<int> actorIds)
+        {
+            var movie = await _context.Movies
+                .Include(m => m.Actors)
+                .FirstOrDefaultAsync(m => m.Id == movieId);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var actorsToAdd = await _context.Actors
+                .Where(a => actorIds.Contains(a.Id) && !movie.Actors.Contains(a))
+                .ToListAsync();
+
+            foreach (var actor in actorsToAdd)
+            {
+                movie.Actors.Add(actor);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MovieDetails), new { id = movieId });
+        }
     }
 }
