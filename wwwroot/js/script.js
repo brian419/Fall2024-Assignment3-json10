@@ -511,3 +511,29 @@ async function initializeActorPage() {
 
 }
 
+
+
+window.onscroll = function () {
+    const scrollUpBtn = document.getElementById("scrollUpBtn");
+    const halfwayPoint = document.body.scrollHeight / 2;
+
+    if (window.scrollY >= halfwayPoint) {
+        scrollUpBtn.style.display = "block";
+    } else {
+        scrollUpBtn.style.display = "none";
+    }
+};
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+function openDeleteModal(actorId) {
+    document.getElementById('deleteActorId').value = actorId;
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+}

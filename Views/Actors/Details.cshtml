@@ -15,7 +15,7 @@
         <p><strong>IMDB:</strong> <a href="@Model.IMDBLink" target="_blank">Link</a></p>
         <img src="@Model.Photo" alt="@Model.Name" style="width:100px;" />
         <h3>Associated Movies</h3>
-        <ul id="movies-list"></ul> 
+        <ul id="movies-list"></ul>
         <br></br>
         <hr id="big-section-break-line">
         <br>
@@ -37,8 +37,13 @@
 
         <ul id="movies-and-shows"></ul>
 
-        <button onclick="window.history.back()">Back</button>
+        <div class="navigation-buttons">
+            <button onclick="history.back()" class="btn">Go Back</button>
+            <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="btn">Go Home</button>
+        </div>
     </section>
+    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
+
 </body>
 
 </html>

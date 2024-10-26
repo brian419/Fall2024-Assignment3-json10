@@ -1,4 +1,3 @@
-<!-- V3 -->
 @model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
 @{
     Layout = "_Layout";
@@ -36,11 +35,9 @@
                         <td><a href="@movie.IMDBLink" target="_blank">Link</a></td>
                         <td><img src="@movie.Poster" alt="@movie.Title" /></td>
                         <td>
-                            <button type="button"
-                                onclick="location.href='@Url.Action("Edit", "Movies", new { id = movie.Id })'">Edit</button>
+                            <button type="button" onclick="location.href='@Url.Action("Edit", "Movies", new { id = movie.Id })'">Edit</button>
                             <button onclick="openDeleteModal(@movie.Id)" class="btn btn-danger">Delete</button>
-                            <button type="button"
-                                onclick="location.href='@Url.Action("Reviews", "Movies", new { title = movie.Title })'">Reviews</button>
+                            <button type="button" onclick="location.href='@Url.Action("Reviews", "Movies", new { title = movie.Title })'">Reviews</button>
                         </td>
                     </tr>
                 }
@@ -52,18 +49,17 @@
         </div>
     </section>
 
-
     <section id="reviews-section" style="display:none;">
         <h3>Associated Actors</h3>
         <ul id="actors-list"></ul>
         <hr id="big-section-break-line">
-        <br></br>
+        <br />
 
         <ul id="reviews-list"></ul>
         <table id="sentiment-table"></table>
     </section>
 
-
+    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
 
     <form id="csrf-form" method="post" style="display: none;">
         @Html.AntiForgeryToken()
@@ -80,18 +76,6 @@
             </form>
         </div>
     </div>
-
-    <script>
-        function openDeleteModal(actorId) {
-            document.getElementById('deleteActorId').value = actorId;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-        }
-    </script>
-
 </body>
 
 </html>

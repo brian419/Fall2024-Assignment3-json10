@@ -1,15 +1,22 @@
+@model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
 @{
     Layout = "_Layout";
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Movies</title>
     <link rel="stylesheet" href="~/css/styles.css" />
+    <script src="~/js/script.js"></script>
 </head>
+
 <body>
     <h2 id="linkactorsmovies-movies-title">Movies</h2>
+    <div class="navigation-buttons">
+        <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="btn">Go Home</button>
+    </div>
     <section id="movies-section">
         @foreach (var movie in ViewBag.Movies)
         {
@@ -18,26 +25,13 @@
                 <h3>@movie.Title</h3>
                 <p><strong>Year:</strong> @movie.Year</p>
                 <p><strong>Genre:</strong> @movie.Genre</p>
-                <button onclick="location.href='@Url.Action("MovieDetails", "Movies", new { id = movie.Id })'">View Details</button>
+                <button onclick="location.href='@Url.Action("MovieDetails", "Movies", new { id = movie.Id })'">View
+                    Details</button>
             </div>
         }
     </section>
 
-    <style>
-        .movie-card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16px;
-            text-align: center;
-            width: 200px;
-            display: inline-block;
-        }
-        .movie-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-    </style>
+    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
 </body>
+
 </html>
