@@ -98,6 +98,7 @@ function deleteActor(index) {
     renderActors();
 }
 
+
 async function callAIForTweets(actorName) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
@@ -159,6 +160,7 @@ async function callAIForTweets(actorName) {
 
     return tweetsArray.slice(0, targetTweetCount);
 }
+
 
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
@@ -244,56 +246,6 @@ function analyzeSentiment(tweet) {
     return sentimentScore > 0 ? "Positive" : sentimentScore < 0 ? "Negative" : "Neutral";
 }
 
-// async function showReviews(movieTitle) {
-//     const reviewsSection = document.getElementById("reviews-section");
-//     const reviewsList = document.getElementById("reviews-list");
-
-//     try {
-//         const response = await fetch(`/Movies/Reviews?title=${encodeURIComponent(movieTitle)}`, {
-//             headers: { 'X-Requested-With': 'XMLHttpRequest' }
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`Movie with title "${movieTitle}" not found on the server.`);
-//         }
-
-//         const movie = await response.json();
-
-//         const reviews = await callOpenAIForReviews(movie.title) || [];
-//         let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
-//         let totalSentimentScore = 0;
-
-//         reviews.forEach(review => {
-//             const sentiment = analyzeSentiment(review);
-//             reviewsHTML += `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
-//             totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
-//         });
-
-//         const overallSentiment = totalSentimentScore > 0 ? "Positive" : 
-//             totalSentimentScore < 0 ? "Negative" : "Neutral";
-//         const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555"; // Blue for Positive, Red for Negative, Gray for Neutral
-//         reviewsHTML += `</table><h4>Overall Sentiment: <span style="color: ${sentimentColor};">${overallSentiment}</span></h4>`;
-
-//         reviewsList.innerHTML = reviewsHTML;
-//         document.getElementById("movies-section").style.display = 'none';
-//         reviewsSection.style.display = 'block';
-
-
-//         const actorsList = document.getElementById('actors-list');
-//         actorsList.innerHTML = movie.actors.map(actor => `<li>${actor.name}</li>`).join("");
-
-//         // if actor list is empty, then say no actors found
-//         if (movie.actors.length === 0) {
-//             actorsList.innerHTML = '<li>No actors linked to this movie in the database. Add actors from Actors page and link them to this movie in Link Actors to Movies Page!</li>';
-//         }
-
-
-
-//     } catch (error) {
-//         console.error(error.message);
-//     }
-// }
-
 
 async function showReviews(movieTitle) {
     const reviewsSection = document.getElementById("reviews-section");
@@ -310,33 +262,27 @@ async function showReviews(movieTitle) {
 
         const movie = await response.json();
 
-        // Fetch AI-generated reviews and calculate sentiment
         const reviews = await callOpenAIForReviews(movie.title) || [];
         let totalSentimentScore = 0;
 
-        // Calculate total sentiment score and build rows for each review with sentiment
         const reviewRows = reviews.map(review => {
             const sentiment = analyzeSentiment(review);
             totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
             return `<tr><td>${review}</td><td>${sentiment}</td></tr>`;
         }).join("");
 
-        // Calculate and set overall sentiment
         const overallSentiment = totalSentimentScore > 0 ? "Positive" :
             totalSentimentScore < 0 ? "Negative" : "Neutral";
         const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555"; // Blue for Positive, Red for Negative, Gray for Neutral
 
-        // Build HTML for overall sentiment heading and review table
         let reviewsHTML = `<h4>Overall Sentiment: <span style="color: ${sentimentColor};">${overallSentiment}</span></h4>`;
         reviewsHTML += `<h3>AI-Generated Reviews for ${movie.title}</h3>`;
         reviewsHTML += `<table><tr><th>Review</th><th>Sentiment</th></tr>${reviewRows}</table>`;
 
-        // Insert the reviews and sentiment analysis into the page
         reviewsList.innerHTML = reviewsHTML;
         document.getElementById("movies-section").style.display = 'none';
         reviewsSection.style.display = 'block';
 
-        // Display associated actors or a message if none are linked
         const actorsList = document.getElementById('actors-list');
         if (movie.actors && movie.actors.length > 0) {
             actorsList.innerHTML = movie.actors.map(actor => `<li>${actor.name}</li>`).join("");
@@ -486,3 +432,52 @@ function deleteLink(index) {
 
 const backToHomeLinks = document.getElementById('back-to-home-links');
 
+
+// adding these down here to move the hardcoded script i had in Details.cshtml for Actors
+async function displayTweets(actorName) {
+    const tweetsTable = document.getElementById("tweets-table").querySelector("tbody");
+    const tweets = await callAIForTweets(actorName);
+    tweets.forEach(tweet => {
+        const row = document.createElement("tr");
+        const sentiment = analyzeSentiment(tweet);
+        row.innerHTML = `<td>${tweet}</td><td>${sentiment}</td>`;
+        tweetsTable.appendChild(row);
+    });
+}
+
+async function displayMoviesAndShows(actorName) {
+    const moviesList = document.getElementById("movies-and-shows");
+    const moviesAndShows = await callAIForMoviesAndShows(actorName);
+    if (moviesAndShows.length > 0) {
+        moviesAndShows.forEach(show => {
+            const listItem = document.createElement("li");
+            listItem.textContent = show;
+            moviesList.appendChild(listItem);
+        });
+    } else {
+        moviesList.innerHTML = "<li>No movies or TV shows found.</li>";
+    }
+}
+
+async function displayOverallSentiment(actorName) {
+    const overallSentimentSpan = document.getElementById("overall-sentiment");
+    const tweets = await callAIForTweets(actorName);
+    let totalSentimentScore = 0;
+    tweets.forEach(tweet => {
+        const sentiment = analyzeSentiment(tweet);
+        totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
+    });
+    const overallSentiment = totalSentimentScore > 0 ? "Positive" :
+        totalSentimentScore < 0 ? "Negative" : "Neutral";
+    const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555";
+    overallSentimentSpan.innerHTML = overallSentiment;
+    overallSentimentSpan.style.color = sentimentColor;
+
+}
+
+async function initializeActorPage() {
+    const actorName = document.body.getAttribute("data-actor-name");
+    await displayTweets(actorName);
+    await displayMoviesAndShows(actorName);
+    await displayOverallSentiment(actorName);
+}

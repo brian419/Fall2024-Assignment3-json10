@@ -1,15 +1,13 @@
-@model Fall2024_Assignment3_json10.Models.Actor
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>Actor Details</title>
     <link rel="stylesheet" href="~/css/styles.css" />
-    <script src="~/js/script.js"></script>
+    <script src="~/js/script.js" defer></script>
 </head>
 
-<body>
+<body onload="initializeActorPage()" data-actor-name="@Model.Name">
     <section id="details-section">
         <h2>@Model.Name</h2>
         <p><strong>Gender:</strong> @Model.Gender</p>
@@ -17,9 +15,9 @@
         <p><strong>IMDB:</strong> <a href="@Model.IMDBLink" target="_blank">Link</a></p>
         <img src="@Model.Photo" alt="@Model.Name" style="width:100px;" />
         <hr id="big-section-break-line">
-        <br></br>
+        <br>
         <p><strong>Overall Sentiment:</strong> <span id="overall-sentiment"></span></p>
-        <br></br>
+        <br>
 
         <h3>AI-Generated Tweets</h3>
         <table id="tweets-table">
@@ -31,45 +29,13 @@
             </thead>
             <tbody></tbody>
         </table>
-        <br></br>
+        <br>
         <hr id="small-section-break-line">
 
         <ul id="movies-and-shows"></ul>
 
         <button onclick="window.history.back()">Back</button>
     </section>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-            const actorName = "@Model.Name";
-
-            const tweets = await callAIForTweets(actorName);
-            const tweetsTable = document.getElementById("tweets-table").querySelector("tbody");
-            tweets.forEach(tweet => {
-                const row = document.createElement("tr");
-                const sentiment = analyzeSentiment(tweet);
-                row.innerHTML = `<td>${tweet}</td><td>${sentiment}</td>`;
-                tweetsTable.appendChild(row);
-            });
-
-            const moviesAndShows = await callAIForMoviesAndShows(actorName);
-            const moviesList = document.getElementById("movies-and-shows");
-            if (moviesAndShows.length > 0) {
-                moviesAndShows.forEach(show => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = show;
-                    moviesList.appendChild(listItem);
-                });
-            } else {
-                moviesList.innerHTML = "<li>No movies or TV shows found.</li>";
-            }
-
-            const overallSentiment = analyzeSentiment(tweets.join(" "));
-            const overallSentimentElement = document.getElementById("overall-sentiment");
-            overallSentimentElement.textContent = overallSentiment;
-
-        });
-    </script>
 </body>
 
 </html>
