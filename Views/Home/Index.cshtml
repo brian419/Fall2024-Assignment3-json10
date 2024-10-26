@@ -1,21 +1,34 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="~/css/styles.css">
 </head>
-
 <body>
     <h1 id="text-color-1">Welcome to AIMDB</h1>
-    <p>This site allows you to manage actors and movies!</p>
+    <p id="intro-description">Your go-to website to manage your favorite movies and actors! Written by Jeongbin Son and coded for CS 330, this website allows a user to add movies and actors to an SQL database. By accessing the different pages located on the navbar or on the homepage, a user can find their way to manage their movies, actors, and even link actors to movies.</p>
 
-    <nav>
-        <button onclick="window.location.href = '@Url.Action("Index", "Movies")';">Movies</button>
-        <button onclick="window.location.href = '@Url.Action("Index", "Actors")';">Actors</button>
-        <button onclick="window.location.href = '@Url.Action("LinkActorsMovies", "Actors")';">Link Actors to Movies</button>
-    </nav>
+    <div class="quick-links">
+        <section>
+            <h2>Manage Movies</h2>
+            <p>View, add, edit, or delete movies in the database. Click on Reviews to generate reviews for your movie!</p>
+            <button onclick="window.location.href = '@Url.Action("Index", "Movies")';">Go to Movies</button>
+        </section>
+        
+        <section>
+            <h2>Manage Actors</h2>
+            <p>View, add, edit, or delete actors in the database. Click on Details to bring up Actor details and generate tweets and a list of movies/tv shows your actor has been in!</p>
+            <button onclick="window.location.href = '@Url.Action("Index", "Actors")';">Go to Actors</button>
+        </section>
+        
+        <section>
+            <h2>Link Actors to Movies</h2>
+            <p>Create and manage links between actors and movies. Delete actors from movies as well!</p>
+            <button onclick="window.location.href = '@Url.Action("LinkActorsMovies", "Actors")';">Link Actors to Movies</button>
+        </section>
+    </div>
+
+
 </body>
-
 </html>

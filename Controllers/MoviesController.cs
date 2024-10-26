@@ -131,7 +131,7 @@ namespace FALL2024_Assignment3_json10.Controllers
             try
             {
                 var movie = await _context.Movies
-                    .Include(m => m.Actors) 
+                    .Include(m => m.Actors)
                     .FirstOrDefaultAsync(m => m.Id == id);
 
                 if (movie == null)
@@ -175,5 +175,32 @@ namespace FALL2024_Assignment3_json10.Controllers
 
             return RedirectToAction(nameof(MovieDetails), new { id = movieId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveActorsFromMovie(int movieId, List<int> actorIds)
+        {
+            var movie = await _context.Movies
+                .Include(m => m.Actors)
+                .FirstOrDefaultAsync(m => m.Id == movieId);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var actorsToRemove = await _context.Actors
+                .Where(a => actorIds.Contains(a.Id) && movie.Actors.Contains(a))
+                .ToListAsync();
+
+            foreach (var actor in actorsToRemove)
+            {
+                movie.Actors.Remove(actor);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MovieDetails), new { id = movieId });
+        }
+
     }
 }
