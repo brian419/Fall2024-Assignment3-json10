@@ -357,3 +357,143 @@ select[multiple] {
 .quick-links button:hover {
     background-color: #0056b3;
 }
+
+
+/* Edit movies section*/
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.text-danger { /* error message style */
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+.btn-primary {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto; 
+    display: block; 
+    margin: 20px auto 0; 
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* details page css, the button for actors */
+
+section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+section img {
+    margin: 10px auto;
+    width: 120px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#tweets-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+#tweets-table th, #tweets-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#tweets-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#tweets-table td {
+    font-size: 0.9em;
+}
+
+#movies-and-shows {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#movies-and-shows li {
+    margin: 5px 0;
+}
+
+#overall-sentiment {
+    font-weight: bold;
+    color: #007BFF; 
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+/* movies reviews section page */
+#reviews-section, #details-section { /* also added actors details section to grab the card like section*/
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: center;
+}

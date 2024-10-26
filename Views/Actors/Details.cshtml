@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <section>
+    <section id="details-section">
         <h2>@Model.Name</h2>
         <p><strong>Gender:</strong> @Model.Gender</p>
         <p><strong>Age:</strong> @Model.Age</p>
@@ -44,7 +44,7 @@
             const tweetsTable = document.getElementById("tweets-table").querySelector("tbody");
             tweets.forEach(tweet => {
                 const row = document.createElement("tr");
-                const sentiment = analyzeSentiment(tweet);  // Uses the analyzeSentiment function in script.js
+                const sentiment = analyzeSentiment(tweet);  
                 row.innerHTML = `<td>${tweet}</td><td>${sentiment}</td>`;
                 tweetsTable.appendChild(row);
             });

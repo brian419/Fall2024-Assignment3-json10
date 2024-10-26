@@ -276,9 +276,10 @@ async function showReviews(movieTitle) {
             totalSentimentScore += (sentiment === "Positive" ? 1 : sentiment === "Negative" ? -1 : 0);
         });
 
-        const overallSentiment = totalSentimentScore > 0 ? "Overall Sentiment: Positive" :
-            totalSentimentScore < 0 ? "Overall Sentiment: Negative" : "Overall Sentiment: Neutral";
-        reviewsHTML += `</table><h4>${overallSentiment}</h4>`;
+        const overallSentiment = totalSentimentScore > 0 ? "Positive" : 
+            totalSentimentScore < 0 ? "Negative" : "Neutral";
+        const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555"; // Blue for Positive, Red for Negative, Gray for Neutral
+        reviewsHTML += `</table><h4>Overall Sentiment: <span style="color: ${sentimentColor};">${overallSentiment}</span></h4>`;
 
         reviewsList.innerHTML = reviewsHTML;
         document.getElementById("movies-section").style.display = 'none';
