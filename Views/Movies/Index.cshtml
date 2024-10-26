@@ -7,8 +7,12 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <link rel="stylesheet" href="~/css/styles.css" integrity="sha384-xVK8ZgXL/GgCAL+xNh/09cLpEOL1O515F7qYcZFdY9K5zQuptIPMXoGHaz8fafvW" crossorigin="anonymous">
-    <script src="~/js/script.js" integrity="sha384-ZpAsNohY0RdNfVEUX62gU7gzoBZJffjlZkpcuzTpGs8lNcBKP/ydkaMW2/QyN5xc" crossorigin="anonymous"></script>
+    <script src="~/js/script.js" integrity="sha384-KfEnl1d8KoP6Hl2WmWrl/6gcETzpUQ91qxWCeLzEYG5JWIj1VfOWp5casdpqHF+a" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -49,26 +53,10 @@
         </div>
     </section>
 
-    <section id="reviews-section" style="display:none;">
-        <h3>Associated Actors</h3>
-        <ul id="actors-list"></ul>
-        <hr id="big-section-break-line">
-        <br />
-
-        <ul id="reviews-list"></ul>
-        <table id="sentiment-table"></table>
-    </section>
-
-    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
-
-    <form id="csrf-form" method="post" style="display: none;">
-        @Html.AntiForgeryToken()
-    </form>
-
     <div id="deleteModal" class="modal">
         <div class="modal-content">
             <h3>Confirm Delete</h3>
-            <p>Are you sure you want to delete this actor?</p>
+            <p>Are you sure you want to delete this movie?</p>
             <form id="deleteForm" asp-action="DeleteConfirmed" method="post">
                 <input type="hidden" id="deleteActorId" name="id" />
                 <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary">Cancel</button>
@@ -76,6 +64,14 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#movies-table').DataTable();
+        });
+    </script>
+
+    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
 </body>
 
-</html>
+</html> 

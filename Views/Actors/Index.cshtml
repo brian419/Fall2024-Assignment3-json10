@@ -7,8 +7,12 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <link rel="stylesheet" href="~/css/styles.css" integrity="sha384-xVK8ZgXL/GgCAL+xNh/09cLpEOL1O515F7qYcZFdY9K5zQuptIPMXoGHaz8fafvW" crossorigin="anonymous">
-    <script src="~/js/script.js" integrity="sha384-ZpAsNohY0RdNfVEUX62gU7gzoBZJffjlZkpcuzTpGs8lNcBKP/ydkaMW2/QyN5xc" crossorigin="anonymous"></script>
+    <script src="~/js/script.js" integrity="sha384-KfEnl1d8KoP6Hl2WmWrl/6gcETzpUQ91qxWCeLzEYG5JWIj1VfOWp5casdpqHF+a" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -35,11 +39,9 @@
                         <td><a href="@actor.IMDBLink" target="_blank">Link</a></td>
                         <td><img src="@actor.Photo" alt="@actor.Name" /></td>
                         <td>
-                            <button type="button"
-                                onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
+                            <button type="button" onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
                             <button onclick="openDeleteModal(@actor.Id)" class="btn btn-danger">Delete</button>
-                            <button type="button"
-                                onclick="location.href='@Url.Action("Details", "Actors", new { id = actor.Id })'">Details</button>
+                            <button type="button" onclick="location.href='@Url.Action("Details", "Actors", new { id = actor.Id })'">Details</button>
                         </td>
                     </tr>
                 }
@@ -62,8 +64,14 @@
             </form>
         </div>
     </div>
-    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#actors-table').DataTable();
+        });
+    </script>
+
+    <button onclick="scrollToTop()" id="scrollUpBtn" class="scroll-up-btn">↑</button>
 </body>
 
 </html>

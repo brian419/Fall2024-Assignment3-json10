@@ -537,3 +537,12 @@ function openDeleteModal(actorId) {
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';
 }
+
+
+function initializeDataTable(tableId) {
+    $(`#${tableId}`).DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true
+    });
+}
