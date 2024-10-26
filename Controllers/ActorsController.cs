@@ -130,15 +130,42 @@ namespace FALL2024_Assignment3_json10.Controllers
         }
 
         [HttpGet]
+        // public async Task<IActionResult> Details(int id)
+        // {
+        //     var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+        //     if (actor == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     return View(actor);
+        // }
+
         public async Task<IActionResult> Details(int id)
         {
-            var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+            var actor = await _context.Actors
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (actor == null)
             {
                 return NotFound();
             }
-            return View(actor);
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new
+                {
+                    Id = actor.Id,
+                    Name = actor.Name,
+                    Gender = actor.Gender,
+                    Age = actor.Age,
+                    IMDBLink = actor.IMDBLink,
+                    Photo = actor.Photo
+                });
+            }
+
+            return View(actor); 
         }
+
 
         public async Task<IActionResult> LinkActorsMovies()
         {

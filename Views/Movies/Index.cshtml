@@ -36,7 +36,8 @@
                         <td><a href="@movie.IMDBLink" target="_blank">Link</a></td>
                         <td><img src="@movie.Poster" alt="@movie.Title" /></td>
                         <td>
-                            <button type="button"onclick="location.href='@Url.Action("Edit", "Movies", new { id = movie.Id })'">Edit</button>
+                            <button type="button"
+                                onclick="location.href='@Url.Action("Edit", "Movies", new { id = movie.Id })'">Edit</button>
                             <button onclick="openDeleteModal(@movie.Id)" class="btn btn-danger">Delete</button>
                             <button type="button" onclick="showReviews('@movie.Title')">Reviews</button>
                         </td>
@@ -49,14 +50,17 @@
     </section>
 
     <section id="reviews-section" style="display:none;">
+        <h3>Associated Actors</h3>
+        <ul id="actors-list"></ul> 
+        <hr id="big-section-break-line">
+        <br></br>
+
         <ul id="reviews-list"></ul>
-        <table id="sentiment-table">
-            <tr>
-                
-        </table>
-        @* <p><strong>Overall Sentiment:</strong> <span id="overall-sentiment"></span></p> *@
+        <table id="sentiment-table"></table>
         <button onclick="backToMoviesFunc()">Back to Movies</button>
     </section>
+
+
 
     <form id="csrf-form" method="post" style="display: none;">
         @Html.AntiForgeryToken()
@@ -74,34 +78,7 @@
         </div>
     </div>
 
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
 
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 300px;
-        }
-
-        .btn {
-            margin: 5px;
-        }
-
-}
-    </style>
 
     <script>
         function openDeleteModal(actorId) {

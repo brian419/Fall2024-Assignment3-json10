@@ -16,6 +16,10 @@
         <p><strong>Age:</strong> @Model.Age</p>
         <p><strong>IMDB:</strong> <a href="@Model.IMDBLink" target="_blank">Link</a></p>
         <img src="@Model.Photo" alt="@Model.Name" style="width:100px;" />
+        <hr id="big-section-break-line">
+        <br></br>
+        <p><strong>Overall Sentiment:</strong> <span id="overall-sentiment"></span></p>
+        <br></br>
 
         <h3>AI-Generated Tweets</h3>
         <table id="tweets-table">
@@ -27,11 +31,10 @@
             </thead>
             <tbody></tbody>
         </table>
+        <br></br>
+        <hr id="small-section-break-line">
 
         <ul id="movies-and-shows"></ul>
-
-        <p><strong>Overall Sentiment:</strong> <span id="overall-sentiment"></span></p>
-
 
         <button onclick="window.history.back()">Back</button>
     </section>
@@ -44,7 +47,7 @@
             const tweetsTable = document.getElementById("tweets-table").querySelector("tbody");
             tweets.forEach(tweet => {
                 const row = document.createElement("tr");
-                const sentiment = analyzeSentiment(tweet);  
+                const sentiment = analyzeSentiment(tweet);
                 row.innerHTML = `<td>${tweet}</td><td>${sentiment}</td>`;
                 tweetsTable.appendChild(row);
             });
@@ -61,7 +64,7 @@
                 moviesList.innerHTML = "<li>No movies or TV shows found.</li>";
             }
 
-            const overallSentiment = analyzeSentiment(tweets.join(" "));  
+            const overallSentiment = analyzeSentiment(tweets.join(" "));
             const overallSentimentElement = document.getElementById("overall-sentiment");
             overallSentimentElement.textContent = overallSentiment;
 

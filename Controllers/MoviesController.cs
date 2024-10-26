@@ -20,9 +20,13 @@ namespace FALL2024_Assignment3_json10.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var movies = await _context.Movies.ToListAsync();
+            var movies = await _context.Movies
+                .Include(m => m.Actors)
+                .ToListAsync();
+
             return View(movies);
         }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -72,11 +76,15 @@ namespace FALL2024_Assignment3_json10.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Reviews(string title)
         {
             Console.WriteLine("Reached the Reviews action");
 
-            var movie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == title);
+            var movie = await _context.Movies
+                .Include(m => m.Actors)
+                .FirstOrDefaultAsync(m => m.Title == title);
+
             if (movie == null)
             {
                 return NotFound();
@@ -84,11 +92,20 @@ namespace FALL2024_Assignment3_json10.Controllers
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-                return Json(movie);
+                return Json(new
+                {
+                    Title = movie.Title,
+                    Genre = movie.Genre,
+                    Year = movie.Year,
+                    IMDBLink = movie.IMDBLink,
+                    Poster = movie.Poster,
+                    Actors = movie.Actors.Select(a => new { a.Id, a.Name }) 
+                });
             }
 
-            return View(movie);
+            return View(movie); 
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
