@@ -3,6 +3,9 @@ using Fall2024_Assignment3_json10.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Fall2024_Assignment3_json10.ViewModels;
+
+
 
 namespace FALL2024_Assignment3_json10.Controllers
 {
@@ -130,16 +133,6 @@ namespace FALL2024_Assignment3_json10.Controllers
         }
 
         [HttpGet]
-        // public async Task<IActionResult> Details(int id)
-        // {
-        //     var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
-        //     if (actor == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     return View(actor);
-        // }
-
         public async Task<IActionResult> Details(int id)
         {
             var actor = await _context.Actors
@@ -171,7 +164,7 @@ namespace FALL2024_Assignment3_json10.Controllers
         public async Task<IActionResult> AssociatedMovies(int id)
         {
             var actor = await _context.Actors
-                .Include(a => a.Movies) // Ensure that the actor's movies are included
+                .Include(a => a.Movies) 
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (actor == null)
@@ -181,7 +174,6 @@ namespace FALL2024_Assignment3_json10.Controllers
 
             var movies = actor.Movies.Select(m => new { m.Id, m.Title }).ToList();
 
-            // Return the list of movies as JSON
             return Json(movies);
         }
 
@@ -189,9 +181,13 @@ namespace FALL2024_Assignment3_json10.Controllers
 
         public async Task<IActionResult> LinkActorsMovies()
         {
-            ViewBag.Actors = await _context.Actors.ToListAsync();
-            ViewBag.Movies = await _context.Movies.ToListAsync();
-            return View();
+            var viewModel = new LinkActorsMoviesViewModel
+            {
+                Actors = await _context.Actors.ToListAsync(),
+                Movies = await _context.Movies.ToListAsync()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]

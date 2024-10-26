@@ -1,6 +1,4 @@
-@* v3 *@
-
-@model Fall2024_Assignment3_json10.Models.Movie
+@model Fall2024_Assignment3_json10.ViewModels.MovieDetailsViewModel
 
 @{
     Layout = "_Layout";
@@ -10,21 +8,21 @@
 <html lang="en">
 
 <head>
-    <title>@Model.Title - Details</title>
+    <title>@Model.Movie.Title - Details</title>
     <link rel="stylesheet" href="~/css/styles.css" integrity="sha384-xVK8ZgXL/GgCAL+xNh/09cLpEOL1O515F7qYcZFdY9K5zQuptIPMXoGHaz8fafvW" crossorigin="anonymous">
 </head>
 
 <body>
-    <h2>@Model.Title</h2>
+    <h2>@Model.Movie.Title</h2>
     <div class="container">
         <section id="section-add-actor" class="section add-actor">
             <h3>Add Actors to Movie</h3>
             <form method="post" asp-action="AddActorsToMovie" asp-controller="Movies">
-                <input type="hidden" name="movieId" value="@Model.Id" />
+                <input type="hidden" name="movieId" value="@Model.Movie.Id" />
                 <div>
                     <label for="actorIds">Select Actors:</label>
                     <select id="actorIds" name="actorIds" multiple>
-                        @foreach (var actor in ViewBag.AllActors)
+                        @foreach (var actor in Model.AllActors)
                         {
                             <option value="@actor.Id">@actor.Name</option>
                         }
@@ -35,13 +33,13 @@
         </section>
 
         <section id="section-movie-card" class="section movie-card">
-            <img src="@Model.Poster" alt="@Model.Title" />
-            <h3>@Model.Title</h3>
-            <p><strong>Year:</strong> @Model.Year</p>
-            <p><strong>Genre:</strong> @Model.Genre</p>
+            <img src="@Model.Movie.Poster" alt="@Model.Movie.Title" />
+            <h3>@Model.Movie.Title</h3>
+            <p><strong>Year:</strong> @Model.Movie.Year</p>
+            <p><strong>Genre:</strong> @Model.Movie.Genre</p>
             <h4>Actors in this Movie</h4>
             <ul>
-                @foreach (var actor in Model.Actors)
+                @foreach (var actor in Model.Movie.Actors)
                 {
                     <li>
                         <a href="@Url.Action("Details", "Actors", new { id = actor.Id })">@actor.Name</a>
@@ -53,11 +51,11 @@
         <section id="section-remove-actor" class="section remove-actor">
             <h3>Remove Actor from Movie</h3>
             <form method="post" asp-action="RemoveActorsFromMovie" asp-controller="Movies">
-                <input type="hidden" name="movieId" value="@Model.Id" />
+                <input type="hidden" name="movieId" value="@Model.Movie.Id" />
                 <div>
                     <label for="actorIds">Select Actor:</label>
                     <select id="actorIds" name="actorIds" multiple>
-                        @foreach (var actor in Model.Actors)
+                        @foreach (var actor in Model.Movie.Actors)
                         {
                             <option value="@actor.Id">@actor.Name</option>
                         }
@@ -69,7 +67,6 @@
     </div>
 
     <button id="linktoactors-back-to-movies" onclick="window.history.back()">Back to Movies</button>
-
 
 </body>
 

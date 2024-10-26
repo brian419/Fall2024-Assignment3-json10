@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fall2024_Assignment3_json10.ViewModels;
+
 
 namespace FALL2024_Assignment3_json10.Controllers
 {
@@ -99,11 +101,11 @@ namespace FALL2024_Assignment3_json10.Controllers
                     Year = movie.Year,
                     IMDBLink = movie.IMDBLink,
                     Poster = movie.Poster,
-                    Actors = movie.Actors.Select(a => new { a.Id, a.Name }) 
+                    Actors = movie.Actors.Select(a => new { a.Id, a.Name })
                 });
             }
 
-            return View(movie); 
+            return View(movie);
         }
 
 
@@ -157,8 +159,13 @@ namespace FALL2024_Assignment3_json10.Controllers
                     return NotFound();
                 }
 
-                ViewBag.AllActors = await _context.Actors.ToListAsync();
-                return View(movie);
+                var viewModel = new MovieDetailsViewModel
+                {
+                    Movie = movie,
+                    AllActors = await _context.Actors.ToListAsync()
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
