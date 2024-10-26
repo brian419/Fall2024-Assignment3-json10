@@ -39,25 +39,28 @@
                             <button type="button"
                                 onclick="location.href='@Url.Action("Edit", "Movies", new { id = movie.Id })'">Edit</button>
                             <button onclick="openDeleteModal(@movie.Id)" class="btn btn-danger">Delete</button>
-                            <button type="button" onclick="showReviews('@movie.Title')">Reviews</button>
+                            <button type="button"
+                                onclick="location.href='@Url.Action("Reviews", "Movies", new { title = movie.Title })'">Reviews</button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button onclick="window.location.href = '@Url.Action("Create")';">Add Movie</button>
-        <button onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
+        <div class="button-container">
+            <button onclick="window.location.href = '@Url.Action("Create")';">Add Movie</button>
+            <button onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
+        </div>
     </section>
+
 
     <section id="reviews-section" style="display:none;">
         <h3>Associated Actors</h3>
-        <ul id="actors-list"></ul> 
+        <ul id="actors-list"></ul>
         <hr id="big-section-break-line">
         <br></br>
 
         <ul id="reviews-list"></ul>
         <table id="sentiment-table"></table>
-        <button onclick="backToMoviesFunc()">Back to Movies</button>
     </section>
 
 
@@ -77,8 +80,6 @@
             </form>
         </div>
     </div>
-
-
 
     <script>
         function openDeleteModal(actorId) {

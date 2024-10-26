@@ -13,6 +13,8 @@ const backToActors = document.getElementById('back-to-actors');
 const movieForm = document.getElementById('movie-form');
 const movieTable = document.querySelector('#movie-table tbody');
 const actorsList = document.getElementById('actors-list');
+const moviesList2 = document.getElementById('movies-list');
+
 const reviewsList = document.getElementById('reviews-list');
 const sentimentTable = document.querySelector('#sentiment-table tbody');
 const actorMoviesList = document.getElementById('actor-movies');
@@ -263,6 +265,7 @@ async function showReviews(movieTitle) {
         const movie = await response.json();
 
         const reviews = await callOpenAIForReviews(movie.title) || [];
+
         let totalSentimentScore = 0;
 
         const reviewRows = reviews.map(review => {
@@ -273,14 +276,13 @@ async function showReviews(movieTitle) {
 
         const overallSentiment = totalSentimentScore > 0 ? "Positive" :
             totalSentimentScore < 0 ? "Negative" : "Neutral";
-        const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555"; // Blue for Positive, Red for Negative, Gray for Neutral
-
+        const sentimentColor = overallSentiment === "Positive" ? "#007BFF" : overallSentiment === "Negative" ? "#d9534f" : "#555"; 
+        
         let reviewsHTML = `<h4>Overall Sentiment: <span style="color: ${sentimentColor};">${overallSentiment}</span></h4>`;
         reviewsHTML += `<h3>AI-Generated Reviews for ${movie.title}</h3>`;
         reviewsHTML += `<table><tr><th>Review</th><th>Sentiment</th></tr>${reviewRows}</table>`;
 
         reviewsList.innerHTML = reviewsHTML;
-        document.getElementById("movies-section").style.display = 'none';
         reviewsSection.style.display = 'block';
 
         const actorsList = document.getElementById('actors-list');
@@ -296,7 +298,6 @@ async function showReviews(movieTitle) {
 }
 
 
-
 function backToMoviesFunc() {
     document.getElementById("reviews-section").style.display = 'none';
     document.getElementById("movies-section").style.display = 'block';
@@ -310,7 +311,7 @@ async function showActorDetails(actorId) {
         });
 
         if (!response.ok) {
-            throw new Error(`Actor with ID "${actorId}" not found on the server.`);
+            throw new Error(`Actor withs ID "${actorId}" not found on the server.`);
         }
 
         const actor = await response.json();
@@ -475,9 +476,38 @@ async function displayOverallSentiment(actorName) {
 
 }
 
+
+/* fetches and displays associated mosvies for the specified actor by id */
+async function displayAssociatedMovies(actorId) {
+    const response = await fetch(`/Actors/AssociatedMovies?id=${actorId}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+
+    if (!response.ok) {
+        console.error(`Actor with ID "${actorId}" not found on the server.`);
+        return;
+    }
+
+    const movies = await response.json();
+    console.log("Movies data:", movies); 
+
+    const actorMoviesList = document.getElementById('movies-list');
+
+    if (movies && movies.length > 0) {
+        actorMoviesList.innerHTML = movies.map(movie => `<li>${movie.title}</li>`).join("");
+    } else {
+        actorMoviesList.innerHTML = '<li>No movies linked to this actor in the database. Link movies from Movies page and link them to this actor in Link Actors to Movies Page!</li>';
+    }
+}
+
+
 async function initializeActorPage() {
     const actorName = document.body.getAttribute("data-actor-name");
+    const actorId = document.body.getAttribute("data-actor-id");
+    await displayAssociatedMovies(actorId);
     await displayTweets(actorName);
     await displayMoviesAndShows(actorName);
     await displayOverallSentiment(actorName);
+
 }
+

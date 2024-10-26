@@ -8,7 +8,7 @@ body {
     text-align: center;
     font-family: Arial, sans-serif;
     background-color: #ffffff;
-    
+
     /* D6D5F1 */
 }
 
@@ -94,6 +94,9 @@ img {
     height: auto;
 }
 
+
+
+
 button {
     padding: 0.5rem 1rem;
     margin: 1rem;
@@ -156,7 +159,9 @@ button:hover {
 
 
 /* link actors movies page before clicking details on a movie & actors title & regular movies page title */
-#linkactorsmovies-movies-title, #linkactorsmovies-actors-title, #regular-movies-title {
+#linkactorsmovies-movies-title,
+#linkactorsmovies-actors-title,
+#regular-movies-title {
     -webkit-text-fill-color: #0000FF;
 }
 
@@ -207,14 +212,14 @@ select[multiple] {
     padding: 20px;
     margin: 20px auto;
     text-align: center;
-    max-width: 350px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #C6C6DA;
 }
 
 #section-movie-card img {
     width: 100%;
-    max-width: 250px; 
+    max-width: 250px;
     height: auto;
     border-radius: 4px;
     margin-bottom: 15px;
@@ -228,7 +233,7 @@ select[multiple] {
 #section-movie-card p {
     font-size: 1em;
     margin: 8px 0;
-    color: #555; 
+    color: #555;
 }
 
 #section-movie-card h4 {
@@ -262,8 +267,8 @@ select[multiple] {
     padding: 20px;
     margin: 20px auto;
     text-align: center;
-    max-width: 350px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #C6C6DA;
 }
 
@@ -320,12 +325,12 @@ select[multiple] {
 
 .quick-links {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
-    margin: 40px auto; 
+    margin: 40px auto;
     padding: 10px;
-    max-width: 800px; 
+    max-width: 800px;
 }
 
 .quick-links section {
@@ -333,14 +338,14 @@ select[multiple] {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
-    width: 250px; 
+    width: 250px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
 }
 
 .quick-links section:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .quick-links button {
@@ -389,7 +394,8 @@ form {
     box-sizing: border-box;
 }
 
-.text-danger { /* error message style */
+.text-danger {
+    /* error message style */
     color: #d9534f;
     font-size: 0.9em;
     margin-top: 5px;
@@ -405,9 +411,9 @@ form {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: auto; 
-    display: block; 
-    margin: 20px auto 0; 
+    width: auto;
+    display: block;
+    margin: 20px auto 0;
 }
 
 .btn-primary:hover {
@@ -439,7 +445,8 @@ section img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-#tweets-table th, #tweets-table td {
+#tweets-table th,
+#tweets-table td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
@@ -466,7 +473,7 @@ section img {
 
 #overall-sentiment {
     font-weight: bold;
-    color: #007BFF; 
+    color: #007BFF;
 }
 
 button {
@@ -487,7 +494,9 @@ button:hover {
 
 
 /* movies reviews section page */
-#reviews-section, #details-section { /* also added actors details section to grab the card like section*/
+#reviews-section,
+#details-section {
+    /* also added actors details section to grab the card like section*/
     max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
@@ -527,18 +536,18 @@ button:hover {
 
 
 /* movies page -> reviews button -> list of associated actors for movie style */
-#actors-list {
+#actors-list, #movies-list {
     display: flex;
-    justify-content: center; 
-    flex-wrap: wrap; 
+    justify-content: center;
+    flex-wrap: wrap;
     padding: 0;
     gap: 10px;
     margin: 20px 0;
-    max-width: 100%; 
+    max-width: 100%;
     list-style-type: none;
 }
 
-#actors-list li {
+#actors-list li, #movies-list li {
     background-color: #f9f9f9;
     padding: 10px 15px;
     border: 1px solid #ddd;
@@ -547,10 +556,10 @@ button:hover {
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
-    min-width: 150px; 
+    min-width: 150px;
 }
 
-#actors-list li:hover {
+#actors-list li:hover, #movies-list li:hover {
     transform: translateY(-3px);
     background-color: #e9ecef;
 }
@@ -575,21 +584,22 @@ button:hover {
 
 /* Actors page, details button, but for movies and tv shows list styling */
 #movies-and-shows {
-    list-style-type: none; 
-    padding: 0; 
-    margin: 0; 
-    max-width: 600px; 
-    margin: 0 auto; 
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 #movies-and-shows li {
-    padding: 10px 15px; 
-    border-bottom: 1px solid #e0e0e0; 
-    text-align: left; 
-    font-size: 16px; 
+    padding: 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 16px;
 }
 
 #movies-and-shows li:hover {
-    background-color: #f5f5f5; 
-    cursor: default; 
+    background-color: #f5f5f5;
+    cursor: default;
 }
+

@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/Views/Actors/AssociatedMovies.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWN0b3JzL0Fzc29jaWF0ZWRNb3ZpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/brianson/Desktop/CS330/Fall2024-Assignment3-json10/Views/Actors/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWN0b3JzL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

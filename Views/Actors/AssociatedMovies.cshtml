@@ -1,0 +1,17 @@
+@model IEnumerable<Fall2024_Assignment3_json10.Models.Movie>
+
+<div id="associated-movies">
+    @if (Model != null && Model.Any())
+    {
+        <ul>
+            @foreach (var movie in Model)
+            {
+                <li>@movie.Title</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No associated movies found.</p>
+    }
+</div>

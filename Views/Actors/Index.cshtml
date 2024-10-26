@@ -35,18 +35,21 @@
                         <td><a href="@actor.IMDBLink" target="_blank">Link</a></td>
                         <td><img src="@actor.Photo" alt="@actor.Name" /></td>
                         <td>
-                            <button type="button" onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
+                            <button type="button"
+                                onclick="location.href='@Url.Action("Edit", "Actors", new { id = actor.Id })'">Edit</button>
                             <button onclick="openDeleteModal(@actor.Id)" class="btn btn-danger">Delete</button>
-                            <button type="button" onclick="location.href='@Url.Action("Details", "Actors", new { id = actor.Id })'">Details</button>
+                            <button type="button"
+                                onclick="location.href='@Url.Action("Details", "Actors", new { id = actor.Id })'">Details</button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button onclick="window.location.href = '@Url.Action("Create")'">Add Actor</button>
+        <div class="button-container">
+            <button id="actors-button-1" onclick="window.location.href = '@Url.Action("Create")'">Add Actor</button>
+            <button id="actors-button-2" onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
+        </div>
 
-
-        <button onclick="window.location.href = '@Url.Action("Index", "Home")';">Home</button>
 
     </section>
 

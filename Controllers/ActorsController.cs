@@ -159,12 +159,32 @@ namespace FALL2024_Assignment3_json10.Controllers
                     Gender = actor.Gender,
                     Age = actor.Age,
                     IMDBLink = actor.IMDBLink,
-                    Photo = actor.Photo
+                    Photo = actor.Photo,
+                    Movies = actor.Movies.Select(m => new { m.Id, m.Title })
                 });
             }
 
-            return View(actor); 
+            return View(actor);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AssociatedMovies(int id)
+        {
+            var actor = await _context.Actors
+                .Include(a => a.Movies) // Ensure that the actor's movies are included
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (actor == null)
+            {
+                return NotFound();
+            }
+
+            var movies = actor.Movies.Select(m => new { m.Id, m.Title }).ToList();
+
+            // Return the list of movies as JSON
+            return Json(movies);
+        }
+
 
 
         public async Task<IActionResult> LinkActorsMovies()

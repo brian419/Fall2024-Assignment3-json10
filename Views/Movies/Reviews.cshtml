@@ -1,18 +1,35 @@
 @model Fall2024_Assignment3_json10.Models.Movie
+@{
+    Layout = "_Layout";
+}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="~/css/styles.css" />
     <script src="~/js/script.js"></script>
+    <link rel="stylesheet" href="~/css/styles.css" />
 </head>
 <body>
     <section id="reviews-section">
+        <h2>Reviews for @Model.Title</h2>
+        <h3>Associated Actors</h3>
+        <ul id="actors-list"></ul> 
+        <hr id="big-section-break-line">
+        <br />
+
         <ul id="reviews-list"></ul>
-        <table id="sentiment-table">
-        </table>
-        <p id="overall-sentiment"></p>
-        <button onclick="backToMoviesFunc()">Back to Movies</button>
+        <table id="sentiment-table"></table>
     </section>
+
+    <div class="navigation-buttons">
+        <button onclick="history.back()" class="btn">Go Back</button>
+        <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="btn">Go Home</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showReviews('@Model.Title');
+        });
+    </script>
 </body>
 </html>

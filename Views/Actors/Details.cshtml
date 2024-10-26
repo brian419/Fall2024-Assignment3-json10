@@ -3,17 +3,20 @@
 
 <head>
     <title>Actor Details</title>
-    <link rel="stylesheet" href="~/css/styles.css" />
     <script src="~/js/script.js" defer></script>
+    <link rel="stylesheet" href="~/css/styles.css" />
 </head>
 
-<body onload="initializeActorPage()" data-actor-name="@Model.Name">
+<body onload="initializeActorPage()" data-actor-id="@Model.Id" data-actor-name="@Model.Name">
     <section id="details-section">
         <h2>@Model.Name</h2>
         <p><strong>Gender:</strong> @Model.Gender</p>
         <p><strong>Age:</strong> @Model.Age</p>
         <p><strong>IMDB:</strong> <a href="@Model.IMDBLink" target="_blank">Link</a></p>
         <img src="@Model.Photo" alt="@Model.Name" style="width:100px;" />
+        <h3>Associated Movies</h3>
+        <ul id="movies-list"></ul> 
+        <br></br>
         <hr id="big-section-break-line">
         <br>
         <p><strong>Overall Sentiment:</strong> <span id="overall-sentiment"></span></p>
