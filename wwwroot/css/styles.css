@@ -336,6 +336,7 @@ select[multiple] {
     width: 250px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+}
 
 .quick-links section:hover {
     transform: translateY(-5px); 
