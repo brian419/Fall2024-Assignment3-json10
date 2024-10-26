@@ -1,5 +1,4 @@
 console.log("script.js loaded");
-
 // v2
 const moviesBtn = document.getElementById('movies-btn');
 const actorsBtn = document.getElementById('actors-btn');
@@ -20,102 +19,13 @@ const sentimentTable = document.querySelector('#sentiment-table tbody');
 const actorMoviesList = document.getElementById('actor-movies');
 const overallSentimentSpan = document.getElementById('overall-sentiment');
 
-
 const actorForm = document.getElementById('actor-form');
 const actorTable = document.querySelector('#actor-table tbody');
 const linkForm = document.getElementById('link-form');
 const actorMovieTable = document.querySelector('#actor-movie-table tbody');
 
-
 let movies = JSON.parse(localStorage.getItem('movies')) || [];
 let actors = JSON.parse(localStorage.getItem('actors')) || [];
-
-function renderActors() {
-    actorTable.innerHTML = '';
-
-    actors.forEach((actor, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${actor.name}</td>
-            <td>${actor.gender}</td>
-            <td>${actor.age}</td>
-            <td><a href="${actor.imdb}" target="_blank">IMDB</a></td>
-            <td><img src="${actor.photo}" alt="${actor.name}" style="width:50px;"/></td>
-            <td>
-                <button onclick="editActor(${index})">Edit</button>
-                <button onclick="deleteActor(${index})">Delete</button>
-                <button onclick="showActorDetails(${index})">Details</button>
-            </td>
-        `;
-        actorTable.appendChild(row);
-    });
-}
-
-function renderMovies() {
-    movieTable.innerHTML = '';
-
-    movies.forEach((movie, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${movie.title}</td>
-            <td><a href="${movie.imdb}" target="_blank">IMDB</a></td>
-            <td>${movie.genre}</td>
-            <td>${movie.year}</td>
-            <td><img src="${movie.poster}" alt="${movie.title}" style="width:50px;"/></td>
-            <td>
-                <button onclick="editMovie(${index})">Edit</button>
-                <button onclick="deleteMovie(${index})">Delete</button>
-                <button onclick="showReviews(${index})">Reviews</button>
-            </td>
-        `;
-        movieTable.appendChild(row);
-    });
-}
-
-renderMovies();
-renderActors();
-
-movieForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const newMovie = {
-        title: document.getElementById('title').value,
-        imdb: document.getElementById('imdb').value,
-        genre: document.getElementById('genre').value,
-        year: document.getElementById('year').value,
-        poster: document.getElementById('poster').value,
-        actors: document.getElementById('actors').value.split(",").map(actor => actor.trim())
-    };
-
-    movies.push(newMovie);
-
-    localStorage.setItem('movies', JSON.stringify(movies));
-
-    renderMovies();
-
-    movieForm.reset();
-});
-
-actorForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const newActor = {
-        name: document.getElementById('name').value,
-        gender: document.getElementById('gender').value,
-        age: document.getElementById('age').value,
-        imdb: document.getElementById('imdb').value,
-        photo: document.getElementById('photo').value
-    };
-
-    actors.push(newActor);
-
-    localStorage.setItem('actors', JSON.stringify(actors));
-
-    renderActors();
-
-    actorForm.reset();
-});
-
 
 function editMovie(movieTitle) {
     const movie = movies.find(m => m.title === movieTitle);
@@ -146,7 +56,7 @@ async function deleteMovie(id) {
     }
 
     try {
-        const response = await fetch(`/Movies/DeleteConfirmed?id=${id}`, {  
+        const response = await fetch(`/Movies/DeleteConfirmed?id=${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -156,7 +66,7 @@ async function deleteMovie(id) {
 
         if (response.ok) {
             console.log("Movie deleted successfully.");
-            location.reload(); 
+            location.reload();
         } else {
             console.error("Failed to delete movie.");
         }
@@ -164,31 +74,6 @@ async function deleteMovie(id) {
         console.error("Error deleting movie:", error);
     }
 }
-
-
-function renderMovies() {
-    const movieTable = document.getElementById('movies-table').querySelector('tbody');
-    movieTable.innerHTML = ''; 
-    movies.forEach((movie, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${movie.title}</td>
-            <td>${movie.genre}</td>
-            <td>${movie.year}</td>
-            <td><a href="${movie.imdb}" target="_blank">Link</a></td>
-            <td><img src="${movie.poster}" alt="${movie.title}" style="width:50px;"/></td>
-            <td>
-                <button onclick="editMovie(${index})">Edit</button>
-                <button onclick="deleteMovie(${index})">Delete</button>
-                <button onclick="showReviews('${movie.title}')">Reviews</button>
-            </td>
-        `;
-        movieTable.appendChild(row);
-    });
-}
-
-renderMovies();
-
 
 function editActor(index) {
     const actor = actors[index];
@@ -205,7 +90,6 @@ function editActor(index) {
 
     renderActors();
 }
-
 
 function deleteActor(index) {
     actors.splice(index, 1);
@@ -277,7 +161,6 @@ async function callAIForTweets(actorName) {
     return tweetsArray.slice(0, targetTweetCount);
 }
 
-
 async function callOpenAIForReviews(movieTitle) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
     const apiKey = '01837e74cf2a4eb08a3291b1a3732c34';
@@ -342,8 +225,6 @@ async function callOpenAIForReviews(movieTitle) {
     return reviewsArray.slice(0, targetReviewCount);
 }
 
-
-
 function analyzeSentiment(tweet) {
     const positiveWords = ["good", "great", "amazing", "fantastic", "wonderful"];
     const negativeWords = ["bad", "terrible", "awful", "boring", "poor"];
@@ -365,7 +246,6 @@ function analyzeSentiment(tweet) {
     return sentimentScore > 0 ? "Positive" : sentimentScore < 0 ? "Negative" : "Neutral";
 }
 
-
 async function showReviews(movieTitle) {
     const reviewsSection = document.getElementById("reviews-section");
     const reviewsList = document.getElementById("reviews-list");
@@ -384,7 +264,7 @@ async function showReviews(movieTitle) {
             throw new Error(`Movie with title "${movieTitle}" not found on the server.`);
         }
 
-        const movie = await response.json();  
+        const movie = await response.json();
 
         const reviews = await callOpenAIForReviews(movie.title) || [];
         let reviewsHTML = `<h3>AI-Generated Reviews for ${movie.title}</h3><table><tr><th>Review</th><th>Sentiment</th></tr>`;
@@ -409,12 +289,10 @@ async function showReviews(movieTitle) {
     }
 }
 
-
 function backToMoviesFunc() {
     document.getElementById("reviews-section").style.display = 'none';
     document.getElementById("movies-section").style.display = 'block';
 }
-
 
 async function showActorDetails(actorId) {
     try {
@@ -426,7 +304,7 @@ async function showActorDetails(actorId) {
             throw new Error(`Actor with ID "${actorId}" not found on the server.`);
         }
 
-        const actor = await response.json();  
+        const actor = await response.json();
 
         const actorInfoHTML = `
             <h3>${actor.name}</h3>
@@ -460,9 +338,6 @@ async function showActorDetails(actorId) {
         console.error(error.message);
     }
 }
-
-
-
 
 async function callAIForMoviesAndShows(actorName) {
     const apiUrl = 'https://fall2024-assignment3-json10-openai.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview';
@@ -517,45 +392,6 @@ async function callAIForMoviesAndShows(actorName) {
     return moviesAndShowsArray.slice(0, targetMoviesCount);
 }
 
-
-backToMovies.addEventListener('click', function () {
-    reviewsSection.style.display = 'none';
-    moviesSection.style.display = 'block';
-    document.getElementById('reviews-section').style.display = 'none'; 
-    document.getElementById('movies-section').style.display = 'block';
-});
-
-
-
-backToActors.addEventListener('click', function () {
-    actorDetailsSection.style.display = 'none';
-    actorsSection.style.display = 'block';
-});
-
-moviesBtn.addEventListener('click', function () {
-    homeSection.style.display = 'none';
-    moviesSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'none';
-});
-
-actorsBtn.addEventListener('click', function () {
-    homeSection.style.display = 'none';
-    actorsSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'none';
-});
-
-backToHomeMovies.addEventListener('click', function () {
-    moviesSection.style.display = 'none';
-    homeSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'block';
-});
-
-backToHomeActors.addEventListener('click', function () {
-    actorsSection.style.display = 'none';
-    homeSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'block';
-});
-
 let actorMovieLinks = JSON.parse(localStorage.getItem('actorMovieLinks')) || [];
 
 function renderMovieSelect() {
@@ -596,22 +432,6 @@ function renderActorMovieLinks() {
     });
 }
 
-linkForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const newLink = {
-        movieIndex: document.getElementById('movie-select').value,
-        actorIndex: document.getElementById('actor-select').value
-    };
-
-    actorMovieLinks.push(newLink);
-
-    localStorage.setItem('actorMovieLinks', JSON.stringify(actorMovieLinks));
-
-    renderActorMovieLinks();
-    linkForm.reset();
-});
-
 function deleteLink(index) {
     actorMovieLinks.splice(index, 1);
     localStorage.setItem('actorMovieLinks', JSON.stringify(actorMovieLinks));
@@ -622,17 +442,3 @@ function deleteLink(index) {
 
 const backToHomeLinks = document.getElementById('back-to-home-links');
 
-document.getElementById('link-actors-movies-btn').addEventListener('click', function () {
-    homeSection.style.display = 'none';
-    renderMovieSelect();
-    renderActorSelect();
-    renderActorMovieLinks();
-    document.getElementById('link-actors-movies-btn').style.display = 'none';
-    document.getElementById('actor-movie-link-section').style.display = 'block';
-});
-
-backToHomeLinks.addEventListener('click', function () {
-    document.getElementById('actor-movie-link-section').style.display = 'none';
-    homeSection.style.display = 'block';
-    document.getElementById('link-actors-movies-btn').style.display = 'block';
-});
